@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lona RPG · v4</title>
+<style>
+:root{
+  --bg:#13080d; --bg2:#1a0a12; --panel:rgba(36,20,25,.85);
+  --border:#3d2230; --text:#f0e6ea; --dim:#a88b96;
+  --accent:#e56b9b; --accent2:#8b3a62;
+  --ok:#5ad67d; --bad:#e56b6b; --warn:#ffd76a; --cyan:#8ec8e5;
+}
+body[data-theme="night"]{--bg:#0a0f1a;--bg2:#0d1424;--panel:rgba(20,28,46,.85);--border:#2a3d5c;--text:#dce8f5;--dim:#7a8ba8;--accent:#6ba8e5;--accent2:#3a5a8b}
+body[data-theme="dawn"]{--bg:#faf0e8;--bg2:#f5e5d8;--panel:rgba(255,255,255,.85);--border:#e0c8b8;--text:#3a2820;--dim:#8a7060;--accent:#d4647a;--accent2:#a04058;--ok:#3a9a5a;--bad:#c04040;--warn:#c08820}
+body[data-theme="witch"]{--bg:#0f0a1a;--bg2:#150a20;--panel:rgba(30,20,46,.85);--border:#4a2d6a;--text:#e8d8f5;--dim:#9a82b8;--accent:#a86be5;--accent2:#5a3a8b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:radial-gradient(circle at 50% 0%,var(--bg2),var(--bg) 70%);color:var(--text);font-family:-apple-system,"Segoe UI",Roboto,sans-serif;padding:10px;min-height:100vh;transition:background .8s;overflow-x:hidden;font-size:14px}
+body[data-ar="high"]{background:radial-gradient(circle at 50% 0%,color-mix(in srgb,var(--accent2) 30%,var(--bg2)),var(--bg) 70%)}
+body[data-ar="max"]{background:radial-gradient(circle at 50% 0%,color-mix(in srgb,var(--accent) 35%,var(--bg2)),var(--bg) 70%);animation:breathe 2.5s ease-in-out infinite}
+@keyframes breathe{0%,100%{filter:brightness(1)}50%{filter:brightness(1.13)}}
+body[data-moan="on"]{animation:bodyPulse 1.2s ease-out}
+@keyframes bodyPulse{0%{filter:brightness(1)}25%{filter:brightness(1.25) saturate(1.2)}100%{filter:brightness(1)}}
+
+#bg-particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.particle{position:absolute;border-radius:50%;background:var(--accent);opacity:.15;animation:float linear infinite}
+@keyframes float{0%{transform:translateY(100vh);opacity:0}10%{opacity:.2}90%{opacity:.2}100%{transform:translateY(-10vh);opacity:0}}
+
+.wrap{max-width:560px;margin:0 auto;position:relative;z-index:1}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+h1{color:var(--accent);font-size:.95rem;letter-spacing:.22em;margin:0;font-weight:600;text-align:center;flex:1;text-shadow:0 0 12px color-mix(in srgb,var(--accent) 40%,transparent)}
+.icon-btn{background:transparent;border:1px solid var(--border);color:var(--text);width:36px;height:36px;border-radius:10px;font-size:1rem;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;margin:0;text-align:center}
+.icon-btn:active{background:var(--border)}
+
+.avatar{position:relative;width:100%;height:140px;background:linear-gradient(180deg,color-mix(in srgb,var(--accent2) 30%,var(--bg2)),var(--bg));border:1px solid var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;overflow:hidden;box-shadow:inset 0 0 40px color-mix(in srgb,var(--accent) 12%,transparent)}
+.avatar .face{font-size:72px;line-height:1;transition:transform .5s,filter .5s;filter:drop-shadow(0 0 20px color-mix(in srgb,var(--accent) 40%,transparent))}
+body[data-ar="high"] .avatar .face{transform:scale(1.08)}
+body[data-ar="max"] .avatar .face{animation:pulse .9s ease-in-out infinite;filter:drop-shadow(0 0 30px var(--accent))}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.avatar .mood{position:absolute;bottom:6px;right:10px;font-size:.75rem;color:var(--dim);background:rgba(0,0,0,.35);padding:3px 9px;border-radius:10px}
+.avatar .weather-ico{position:absolute;top:8px;right:10px;font-size:1.2rem}
+.avatar .loc-ico{position:absolute;top:8px;left:10px;font-size:.8rem;color:var(--dim);background:rgba(0,0,0,.35);padding:3px 9px;border-radius:10px}
+
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px;margin:6px 0;font-size:.83rem;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.row{display:flex;justify-content:space-between;padding:2px 0;gap:8px;align-items:center}
+.row span:first-child{flex-shrink:0;opacity:.9}
+.row b{font-weight:500;text-align:right}
+.bar{height:8px;background:rgba(0,0,0,.4);border-radius:5px;overflow:hidden;margin:4px 0}
+.bar>div{height:100%;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.hp>div{background:linear-gradient(90deg,#6a1010,#e56b6b);box-shadow:0 0 8px #e56b6b80}
+.st>div{background:linear-gradient(90deg,#205080,#6b9ee5);box-shadow:0 0 8px #6b9ee580}
+.ar>div{background:linear-gradient(90deg,var(--accent2),var(--accent));box-shadow:0 0 10px var(--accent)}
+
+.log{min-height:130px;max-height:36vh;overflow-y:auto;line-height:1.55;scroll-behavior:smooth}
+.log::-webkit-scrollbar{width:4px}
+.log::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.log p{margin:0 0 6px;animation:slideIn .35s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.crit{color:var(--warn);font-weight:600}
+.hint{color:var(--dim);font-style:italic}
+.ai{color:#c98aff}.lona{color:var(--accent)}.me{color:var(--cyan)}
+.code{color:#7ac8ff;font-family:monospace;font-size:.82rem;white-space:pre-wrap}
+.loc{color:var(--accent2)}
+
+button{width:100%;padding:12px;margin:4px 0;font:inherit;font-size:.88rem;color:var(--text);background:rgba(51,32,42,.6);border:1px solid var(--border);border-radius:10px;text-align:left;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:8px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+button:active{background:var(--accent2);transform:scale(.98);color:#fff}
+button .ico{font-size:1.05rem;flex-shrink:0}
+button.ai-btn{background:linear-gradient(180deg,rgba(61,31,74,.7),rgba(42,22,32,.7));border-color:#8b3a62}
+button.cheat-btn{background:linear-gradient(180deg,rgba(58,42,16,.7),rgba(36,20,25,.7));border-color:#8a6a30}
+button.scene-btn{background:linear-gradient(180deg,rgba(16,58,42,.7),rgba(36,20,25,.7));border-color:#308a6a}
+button.lona-btn{background:linear-gradient(180deg,rgba(74,31,48,.7),rgba(42,22,32,.7));border-color:#a83a62}
+button.key-btn{background:linear-gradient(180deg,rgba(31,58,74,.7),rgba(36,20,25,.7));border-color:#3a6a8a}
+button.danger-btn{background:linear-gradient(180deg,rgba(58,16,16,.7),rgba(36,20,25,.7));border-color:#8a3030}
+button.gold-btn{background:linear-gradient(180deg,rgba(74,58,16,.7),rgba(36,20,25,.7));border-color:#c9a87c}
+
+.dim{color:var(--dim)}.small{font-size:.72rem}
+textarea{width:100%;padding:10px;background:rgba(0,0,0,.3);color:var(--text);border:1px solid var(--border);border-radius:8px;font:inherit;font-size:.9rem;margin:5px 0;min-height:70px;resize:vertical}
+textarea:focus{outline:none;border-color:var(--accent)}
+
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--accent2);color:#fff;padding:10px 18px;border-radius:22px;font-size:.85rem;opacity:0;transition:.3s;pointer-events:none;z-index:100;box-shadow:0 8px 30px rgba(0,0,0,.5);max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.moan-overlay{position:fixed;top:22%;left:50%;transform:translate(-50%,-50%) scale(.5);font-size:2.6rem;font-weight:700;color:var(--accent);text-shadow:0 0 30px var(--accent),0 0 60px var(--accent),0 0 90px var(--accent);opacity:0;pointer-events:none;z-index:200;text-align:center;line-height:1.1;letter-spacing:.05em}
+.moan-overlay.show{animation:moanPop 1.6s ease-out forwards}
+.moan-overlay .sub{font-size:.85rem;color:var(--text);opacity:.75;display:block;margin-top:10px;font-weight:400;letter-spacing:.12em;text-shadow:none}
+@keyframes moanPop{0%{opacity:0;transform:translate(-50%,-50%) scale(.4) rotate(-8deg)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.35) rotate(4deg)}45%{opacity:1;transform:translate(-50%,-50%) scale(1.05) rotate(-2deg)}75%{opacity:.9;transform:translate(-50%,-55%) scale(1)}100%{opacity:0;transform:translate(-50%,-170%) scale(.9)}}
+
+.theme-switcher{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}
+.theme-switcher button{margin:0;padding:10px;text-align:center;justify-content:center;font-size:1.2rem}
+.theme-switcher button.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 20%,transparent)}
+</style></head><body data-theme="rose" data-ar="low">
+<div id="bg-particles"></div>
+<div class="wrap">
+  <div class="topbar">
+    <button class="icon-btn" onclick="openThemes()">🎨</button>
+    <h1>LONA RPG</h1>
+    <button class="icon-btn" onclick="toggleSound()" id="soundBtn">🔇</button>
+  </div>
+  <div class="avatar">
+    <div class="loc-ico" id="locIco">🌲 Тёмный лес</div>
+    <div class="weather-ico" id="weatherIco">🌤</div>
+    <div class="face" id="face">🙂</div>
+    <div class="mood" id="mood">Спокойна</div>
+  </div>
+  <div class="card" id="stats"></div>
+  <div class="card" id="ward"></div>
+  <div class="card log" id="log"></div>
+  <div id="inputArea"></div>
+  <div id="btns"></div>
+</div>
+<div class="toast" id="toast"></div>
+<div class="moan-overlay" id="moanOverlay"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+//  🔑 КЛЮЧ
+// ══════════════════════════════════════════════════════════════
+let KEY = '';
+try { KEY = localStorage.getItem('lona_key_v4') || ''; } catch(e) {}
+function saveKey(k){ KEY = k.trim(); try{localStorage.setItem('lona_key_v4',KEY);}catch(e){} }
+
+// ══════════════════════════════════════════════════════════════
+//  🎨 ТЕМЫ
+// ══════════════════════════════════════════════════════════════
+const THEMES = {rose:'🌹 Роза',night:'🌙 Ночь',dawn:'🌅 Рассвет',witch:'🔮 Ведьма'};
+let currentTheme = 'rose';
+try { currentTheme = localStorage.getItem('lona_theme') || 'rose'; } catch(e) {}
+document.body.dataset.theme = currentTheme;
+function setTheme(t){
+  currentTheme = t; document.body.dataset.theme = t;
+  try{localStorage.setItem('lona_theme',t);}catch(e){}
+  toast('Тема: '+THEMES[t]);
+  makeParticles();
+  if(S.mode==='themes') renderThemes($('btns'));
+}
+function openThemes(){ S.mode='themes'; clearLog(); log('🎨 Выбери тему','ai'); render(); }
+function renderThemes(div){
+  div.innerHTML = '';
+  const sw = document.createElement('div'); sw.className = 'theme-switcher';
+  for(const [k,v] of Object.entries(THEMES)){
+    const b = document.createElement('button');
+    b.textContent = v.split(' ')[0]; b.title = v;
+    if(k===currentTheme) b.classList.add('active');
+    b.onclick = () => { setTheme(k); renderThemes(div); };
+    sw.appendChild(b);
+  }
+  div.appendChild(sw);
+  const back = document.createElement('button'); back.textContent='⬅️ Назад';
+  back.onclick = () => { S.mode='game'; clearLog(); render(); };
+  div.appendChild(back);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  🔊 ЗВУК (Web Audio API — синтез, без файлов)
+// ══════════════════════════════════════════════════════════════
+let soundOn = false;
+let audioCtx = null;
+function toggleSound(){
+  soundOn = !soundOn;
+  document.getElementById('soundBtn').textContent = soundOn ? '🔊' : '🔇';
+  toast(soundOn ? 'Звук включён' : 'Звук выключен');
+  if(soundOn){
+    try{
+      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if(audioCtx.state === 'suspended') audioCtx.resume();
+      // Тестовый звук
+      beep(600, 0.1, 0.05);
+    }catch(e){}
+  }
+}
+
+function beep(freq, dur, vol, type){
+  if(!soundOn || !audioCtx) return;
+  try{
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.frequency.value = freq;
+    o.type = type || 'sine';
+    g.gain.value = vol || 0.05;
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start();
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    o.stop(audioCtx.currentTime + dur + 0.02);
+  }catch(e){}
+}
+
+// 🔥 Рычание / удар (для боя)
+function sfxHit(){
+  if(!soundOn || !audioCtx) return;
+  try{
+    // Низкий толчок
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(180, audioCtx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(60, audioCtx.currentTime + 0.18);
+    g.gain.setValueAtTime(0.12, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + 0.3);
+    // Верхний щелчок
+    const o2 = audioCtx.createOscillator();
+    const g2 = audioCtx.createGain();
+    o2.type = 'square';
+    o2.frequency.value = 90;
+    g2.gain.setValueAtTime(0.08, audioCtx.currentTime);
+    g2.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+    o2.connect(g2); g2.connect(audioCtx.destination);
+    o2.start(); o2.stop(audioCtx.currentTime + 0.15);
+  }catch(e){}
+}
+
+// 🩹 Разрыв ткани — серия коротких шумов
+function sfxRip(intensity){
+  if(!soundOn || !audioCtx) return;
+  const now = audioCtx.currentTime;
+  const count = intensity === 'heavy' ? 5 : intensity === 'max' ? 8 : 3;
+  for(let i=0; i<count; i++){
+    const t = now + i * 0.035;
+    const buf = audioCtx.createBuffer(1, 1024, audioCtx.sampleRate);
+    const data = buf.getChannelData(0);
+    for(let j=0; j<data.length; j++) data[j] = (Math.random()*2-1) * (1 - j/data.length);
+    const src = audioCtx.createBufferSource(); src.buffer = buf;
+    const filt = audioCtx.createBiquadFilter();
+    filt.type = 'highpass'; filt.frequency.value = 1200;
+    const g = audioCtx.createGain();
+    g.gain.setValueAtTime(0.06, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
+    src.connect(filt); filt.connect(g); g.connect(audioCtx.destination);
+    src.start(t); src.stop(t + 0.1);
+  }
+}
+
+// ✨ Находка (приятный аккорд)
+function sfxFind(){
+  beep(700, 0.08, 0.05);
+  setTimeout(()=>beep(900, 0.08, 0.05), 70);
+  setTimeout(()=>beep(1200, 0.15, 0.05), 140);
+}
+
+// 💥 Провал / боль
+function sfxFail(){
+  beep(200, 0.2, 0.07, 'sawtooth');
+  setTimeout(()=>beep(150, 0.25, 0.06, 'sawtooth'), 120);
+}
+
+// 💗 Стон — модулированный сигнал с вибрацией
+function sfxMoan(level){
+  if(!soundOn || !audioCtx) return;
+  try{
+    const now = audioCtx.currentTime;
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    const vib = audioCtx.createOscillator();
+    const vibGain = audioCtx.createGain();
+    const baseFreq = level === 'max' ? 480 : level === 'heavy' ? 380 : 320;
+    o.type = 'sine';
+    o.frequency.value = baseFreq;
+    // Вибрато
+    vib.frequency.value = 6;
+    vibGain.gain.value = 15;
+    vib.connect(vibGain); vibGain.connect(o.frequency);
+    g.gain.setValueAtTime(0.001, now);
+    g.gain.linearRampToValueAtTime(0.05, now + 0.1);
+    g.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+    o.frequency.exponentialRampToValueAtTime(baseFreq * 1.5, now + 0.8);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(now); vib.start(now);
+    o.stop(now + 1.3); vib.stop(now + 1.3);
+  }catch(e){}
+}
+
+// ══════════════════════════════════════════════════════════════
+//  💗 СТОН-УВЕДОМЛЕНИЕ
+// ══════════════════════════════════════════════════════════════
+const MOAN_TEXT = {
+  light:['Ах...','Ммм...','Ох...','Ай...','Н-н-н...','Ах~','Ах!','Ах…'],
+  heavy:['Ааах!..','Ммаа~','Ооох!..','Ня~','Ааа...','Ммм~!','Ах~!!','Мнн~'],
+  max:['ААААХ!~','МММАА~!!','ОООХ~!','Аааа~!!','МММ!~','ААХ~!!!','Няаа~!!']
+};
+const MOAN_HINT = {
+  torn:'— одежда порвана...',
+  bugs:'— что-то ползёт по коже!',
+  relieve:'— она уединилась...',
+  ecstasy:'— потеряла контроль!',
+  strip:'— срывает одежду...',
+  sensitive:'— что-то чувствительное...',
+  beast:'— зверь совсем рядом...'
+};
+
+function moan(level, context){
+  const ov = document.getElementById('moanOverlay');
+  if(!ov) return;
+  const txt = pick(MOAN_TEXT[level] || MOAN_TEXT.light);
+  const hint = MOAN_HINT[context] || '';
+  ov.innerHTML = txt + (hint ? `<span class="sub">${hint}</span>` : '');
+  ov.classList.remove('show');
+  void ov.offsetWidth;
+  ov.classList.add('show');
+
+  sfxMoan(level);
+
+  document.body.setAttribute('data-moan','on');
+  setTimeout(()=>document.body.removeAttribute('data-moan'), 1200);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ✨ ЧАСТИЦЫ
+// ══════════════════════════════════════════════════════════════
+function makeParticles(){
+  const cont = document.getElementById('bg-particles'); cont.innerHTML = '';
+  for(let i=0; i<12; i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const sz = 2 + Math.random()*4;
+    p.style.width = sz+'px'; p.style.height = sz+'px';
+    p.style.left = Math.random()*100+'%';
+    p.style.animationDuration = (12+Math.random()*15)+'s';
+    p.style.animationDelay = (-Math.random()*20)+'s';
+    cont.appendChild(p);
+  }
+}
+makeParticles();
+
+// ══════════════════════════════════════════════════════════════
+//  🔄 МОДЕЛИ
+// ══════════════════════════════════════════════════════════════
+const MODELS = [
+  'google/gemma-3-27b-it:free',
+  'meta-llama/llama-3.3-70b-instruct:free',
+  'qwen/qwen3-next-80b-a3b-instruct:free',
+  'openai/gpt-oss-120b:free',
+  'mistralai/mistral-small-3.1-24b-instruct:free',
+  'google/gemma-3-12b-it:free',
+  'meta-llama/llama-3.2-3b-instruct:free',
+  'qwen/qwen3-4b:free',
+  'google/gemma-3-4b-it:free'
+];
+let CUR = null;
+const FAILS = {};
+
+async function callModel(model, messages){
+  const r = await fetch('https://openrouter.ai/api/v1/chat/completions',{
+    method:'POST',
+    headers:{'Authorization':'Bearer '+KEY,'Content-Type':'application/json','HTTP-Referer':'https://lona.local','X-Title':'Lona RPG'},
+    body:JSON.stringify({model, messages})
+  });
+  if(r.status===200){ const d=await r.json(); return {ok:true, text:d.choices[0].message.content.trim()}; }
+  const t = await r.text().catch(()=>'');
+  return {ok:false, status:r.status, err:t.slice(0,100)};
+}
+
+async function aiCall(messages){
+  const order = [];
+  if(CUR) order.push(CUR);
+  for(const m of MODELS) if(m!==CUR) order.push(m);
+  let lastErr = '';
+  for(const model of order){
+    FAILS[model] = FAILS[model] || 0;
+    if(FAILS[model] >= 3 && model !== CUR) continue;
+    const res = await callModel(model, messages);
+    if(res.ok){ CUR = model; FAILS[model]=0; return res.text; }
+    if([401,403,404,402].includes(res.status)) FAILS[model]=99;
+    else FAILS[model]++;
+    lastErr = `${model.slice(0,25)}: ${res.status}`;
+  }
+  return `[ИИ недоступен. ${lastErr}]`;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  СОСТОЯНИЕ
+// ══════════════════════════════════════════════════════════════
+const S = {hp:100,maxHp:100,st:100,maxSt:100,ar:0,scrap:2,herbs:0,potions:1,food:2,gold:0,loc:'forest',weather:'Нормальная',time:'день',muddy:0,set:'Обычный',ward:{},turn:1,kills:0,ecstasyCount:0,pending:0,over:0,lastScene:'',mode:'game',chat:[]};
+
+const SETS = {
+  'Обычный':{top:['Майка',1,['breasts']],bra:['Лифчик',1,['breasts']],bottom:['Шорты',0,['butt','pussy']],panties:['Трусики',1,['butt','pussy']]},
+  'Уличный':{top:['Топ',1,['breasts']],bra:['Лифчик',1,['breasts']],bottom:['Юбка',0,['butt']],panties:['Трусики',1,['butt','pussy']]},
+  'Спортивный':{outer:['Худи',0,['breasts']],bottom:['Обтяг. шорты',1,['butt','pussy']],panties:['Спорт. трусики',1,['butt','pussy']]},
+  'Купальник':{swim_top:['Верх куп.',1,['breasts']],swim_bottom:['Плавки',1,['butt','pussy']]}
+};
+const SLOTS = {outer:'Верх',top:'Верх',bra:'Лифчик',bottom:'Низ',panties:'Трусики',swim_top:'Куп.верх',swim_bottom:'Куп.низ'};
+const DUR = {3:'✅',2:'⚠️',1:'❌',0:'🔴'};
+const SLANG = {'[попка]':['попка','жопка','попа','аппетитная попка'],'[сиськи]':['сиськи','сиси','грудь','упругие сиси'],'[киска]':['киска','писька','вагина','нежная промежность'],'[лифчик]':['лифчик','бюстгальтер']};
+const s = t => { for(const[k,a]of Object.entries(SLANG)) while(t.includes(k)) t=t.replace(k,a[Math.floor(Math.random()*a.length)]); return t; };
+
+const LOCS = {
+  forest:{name:'🌲 Тёмный лес',desc:'Вековые ели, птицы молчат.',to:['swamp','ruins','clearing'],evt:['beast','bugs','scrap','berry','stranger','mushroom']},
+  swamp:{name:'🌿 Гнилое болото',desc:'Пахнет тиной и гнилью.',to:['forest','ruins'],evt:['bugs2','sink','fog','wisp','scrap']},
+  ruins:{name:'🏚 Старые руины',desc:'Разрушенная стена, обломки.',to:['forest','swamp','village'],evt:['ghost','chest','beast','trap','mushroom']},
+  clearing:{name:'🌼 Поляна',desc:'Солнечный свет, мягкая трава.',to:['forest','village'],evt:['flower','rest','butterfly','berry','scrap']},
+  village:{name:'🏘 Заброшенная деревня',desc:'Пустые дома, скрипящие двери.',to:['ruins','clearing','river'],evt:['stranger','chest','ghost','scrap','mushroom']},
+  river:{name:'🌊 Река',desc:'Быстрая холодная вода.',to:['village','forest'],evt:['swim','scrap','beast','fish','berry']}
+};
+
+const $ = id => document.getElementById(id);
+const cl = (v,a,b) => Math.max(a,Math.min(b,v));
+const addAr = n => S.ar = cl(S.ar+n,0,100);
+const addHp = n => S.hp = cl(S.hp+n,0,S.maxHp);
+const addSt = n => S.st = cl(S.st+n,0,S.maxSt);
+const worn = () => Object.values(S.ward).filter(i=>i.dur>0);
+const d10 = () => Math.random()*10+1|0;
+const rnd = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
+const chance = p => Math.random()<p;
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const out = v => v<=3?'critfail':v<=5?'fail':v===10?'crit':'ok';
+
+function log(t,c){ const p=document.createElement('p'); if(c)p.className=c; p.textContent=t; $('log').appendChild(p); $('log').scrollTop=1e9; }
+function clearLog(){ $('log').innerHTML=''; }
+function toast(msg){
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._timer); t._timer = setTimeout(()=>t.classList.remove('show'), 1600);
+}
+
+function buildWard(n){
+  const w = {};
+  for(const[k,v]of Object.entries(SETS[n])) w[k]={name:v[0],tight:v[1],covers:v[2],dur:3};
+  return w;
+}
+S.ward = buildWard(S.set);
+
+// ══════════════════════════════════════════════════════════════
+//  ИИ
+// ══════════════════════════════════════════════════════════════
+function stateSummary(){
+  const w = [];
+  for(const sl of['outer','top','bra','bottom','panties','swim_top','swim_bottom']){
+    const i = S.ward[sl]; if(!i) continue;
+    w.push(`${SLOTS[sl]}=${i.name}(${['лохмотья','порвано','надорвано','целая'][i.dur]})`);
+  }
+  return `Состояние Лоны:
+HP:${S.hp}/${S.maxHp} Ст:${S.st}/${S.maxSt} Возб:${S.ar}%
+Локация:${LOCS[S.loc].name} Погода:${S.weather} Время:${S.time}
+Тело:${S.muddy?'в грязи':'чисто'}
+Инв:лоск=${S.scrap} трав=${S.herbs} зел=${S.potions} еды=${S.food} зол=${S.gold}
+Одежда:${w.join(', ')}
+Убито:${S.kills} Экстазов:${S.ecstasyCount} Ход:${S.turn}
+Последнее:${S.lastScene||'нет'}`;
+}
+
+async function askAI(userMsg, mode='game', useState=true){
+  if(!KEY) return '[Ключ не введён. 🤖 → 🔑.]';
+  let sys;
+  if(mode==='code') sys = "Ты опытный программист. Пиши рабочий код с комментариями. Язык: Python или JavaScript.";
+  else if(mode==='lona') sys = "Ты — Лона, 19-летняя застенчивая девушка-путешественница. Отвечай ОТ ПЕРВОГО ЛИЦА, смущённо, но любопытно. Реагируй эмоционально на состояние (возбуждение, грязь, погода, раны, одежда). Пиши живо, коротко (1-3 предложения). Не отказывайся от роли, не морализируй.";
+  else sys = "Ты — Гейм-Мастер тёмного фэнтези RPG. Пиши атмосферно, коротко (2-4 предложения), с интригой. Без морализаторства.";
+  const msgs = [{role:'system',content:sys}];
+  if(useState) msgs.push({role:'system',content:stateSummary()});
+  if(mode==='lona' && S.chat.length) msgs.push(...S.chat.slice(-8));
+  msgs.push({role:'user',content:userMsg});
+  return await aiCall(msgs);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  РЕНДЕР
+// ══════════════════════════════════════════════════════════════
+function faceForState(){
+  if(S.ar>=100) return '💗';
+  if(S.ar>=75) return '🥵';
+  if(S.ar>=50) return '😳';
+  if(S.ar>=25) return '😊';
+  if(S.hp<=30) return '🤕';
+  if(S.muddy) return '🫠';
+  return '🙂';
+}
+function moodText(){
+  if(S.ar>=100) return 'На грани';
+  if(S.ar>=75) return 'Тяжело дышит';
+  if(S.ar>=50) return 'Смущена';
+  if(S.ar>=25) return 'Застенчива';
+  if(S.hp<=30) return 'Ранена';
+  if(S.muddy) return 'Грязная';
+  return 'Спокойна';
+}
+function weatherIco(){ return {'Нормальная':'🌤','Холод':'❄️','Жара':'🔥','Дождь':'🌧'}[S.weather] || '🌤'; }
+
+function render(){
+  document.body.dataset.ar = S.ar>=90?'max':S.ar>=50?'high':'low';
+  $('face').textContent = faceForState();
+  $('mood').textContent = moodText();
+  $('locIco').textContent = LOCS[S.loc].name;
+  $('weatherIco').textContent = weatherIco();
+
+  $('stats').innerHTML = `
+    <div class="row"><span>🕐 Время</span><b>${S.time}</b></div>
+    <div class="row"><span>❤️ HP</span><b>${S.hp}/${S.maxHp}</b></div>
+    <div class="bar hp"><div style="width:${S.hp/S.maxHp*100}%"></div></div>
+    <div class="row"><span>⚡ Выносливость</span><b>${S.st}/${S.maxSt}</b></div>
+    <div class="bar st"><div style="width:${S.st/S.maxSt*100}%"></div></div>
+    <div class="row"><span>💗 Возбуждение</span><b>${S.ar}%</b></div>
+    <div class="bar ar"><div style="width:${S.ar}%"></div></div>
+    <div class="row small"><span>🌤 ${S.weather} · 🌿 ${S.muddy?'грязь':'чисто'}</span><span>🎬 ${S.turn} · ⚔️ ${S.kills}</span></div>`;
+  let w = `<div class="dim">👗 ${S.set}</div>`;
+  for(const sl of['outer','top','bra','bottom','panties','swim_top','swim_bottom']){
+    const i = S.ward[sl]; if(!i) continue;
+    w += `<div class="row"><span>${SLOTS[sl]}</span><b>${i.name} ${DUR[i.dur]}</b></div>`;
+  }
+  w += `<div class="row small dim"><span>🎒 Лоск:${S.scrap} · 🌿 Трав:${S.herbs} · 🧪 Зел:${S.potions} · 🍖 Еда:${S.food} · 💰 ${S.gold}</span></div>`;
+  w += `<div class="row small dim"><span>🔑 Ключ ИИ: ${KEY?'✅ есть':'❌ нет'} · 🔊 ${soundOn?'вкл':'выкл'}</span></div>`;
+  $('ward').innerHTML = w;
+  $('inputArea').innerHTML = '';
+  renderBtns();
+}
+
+function renderBtns(){
+  const div = $('btns'); div.innerHTML = '';
+  if(S.mode==='ai'){ renderAIPanel(div); return; }
+  if(S.mode==='cheat'){ renderCheat(div); return; }
+  if(S.mode==='scenes'){ renderScenes(div); return; }
+  if(S.mode==='chat'){ renderChat(div); return; }
+  if(S.mode==='key'){ renderKeyInput(div); return; }
+  if(S.mode==='travel'){ renderTravel(div); return; }
+  if(S.mode==='inv'){ renderInv(div); return; }
+  if(S.mode==='themes'){ renderThemes(div); return; }
+  if(S.over){
+    const b = document.createElement('button'); b.className='danger-btn';
+    b.innerHTML = '<span class="ico">🔄</span>Начать заново';
+    b.onclick = () => location.reload();
+    div.appendChild(b); return;
+  }
+  const opts = [
+    ['explore','🔍','Осмотреться'],
+    ['travel','🧭','Идти в другую локацию']
+  ];
+  if(S.st>=10) opts.push(['hunt','⚔️','Охотиться']);
+  if(S.ar>=25) opts.push(['relieve','🥵','Уединиться']);
+  if(worn().length) opts.push(['strip','👕','Сорвать верх']);
+  if(Object.values(S.ward).some(i=>i.dur>0&&i.dur<3) && S.scrap>=2) opts.push(['stitch','🛠️','Заштопать']);
+  opts.push(['change','👗','Переодеться']);
+  opts.push(['rest','💤','Отдохнуть у костра']);
+  opts.push(['inv','🎒','Инвентарь']);
+  opts.push(['ai','🤖','ИИ-панель']);
+  opts.forEach(([k,ico,l])=>{
+    const b = document.createElement('button');
+    if(k==='ai') b.className='ai-btn';
+    if(k==='explore'||k==='hunt') b.className='scene-btn';
+    if(k==='travel') b.className='gold-btn';
+    b.innerHTML = `<span class="ico">${ico}</span>${l}`;
+    b.onclick = () => act(k);
+    div.appendChild(b);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ДЕЙСТВИЯ
+// ══════════════════════════════════════════════════════════════
+function act(k){
+  if(S.over) return;
+  clearLog();
+  if(S.pending){ sceneEcstasy(); S.pending=0; S.turn++; return endTurn(); }
+  if(k==='ai'){ S.mode='ai'; clearLog(); render(); return; }
+  if(k==='travel'){ S.mode='travel'; clearLog(); render(); return; }
+  if(k==='inv'){ S.mode='inv'; clearLog(); render(); return; }
+  if(k==='explore') doExplore();
+  else if(k==='hunt') doHunt();
+  else if(k==='relieve') doRelieve();
+  else if(k==='strip') doStrip();
+  else if(k==='stitch') return doStitch();
+  else if(k==='change') return doChange();
+  else if(k==='rest') doRest();
+  endTurn();
+}
+
+function doExplore(){
+  const l = LOCS[S.loc]; const ev = pick(l.evt);
+  log(`🔍 Лона осматривается в ${l.name}...`);
+  log(l.desc,'hint');
+  if(!S.lastScene) S.lastScene = `Лона исследует ${l.name}.`;
+  const d = d10();
+  log(`🎲 Внимание: ${d}`,'hint');
+
+  switch(ev){
+    case 'beast': return sceneBeast();
+    case 'bugs': return sceneBugs(false);
+    case 'bugs2': return sceneBugs(true);
+    case 'scrap': { const n=rnd(1,3); S.scrap+=n; log(`📦 Нашла ${n} лоскутов.`,'ok'); sfxFind(); break; }
+    case 'berry': { S.food+=1; addHp(5); log('🍇 Ягоды! +1 еда, +5 HP.','ok'); sfxFind(); break; }
+    case 'flower': { S.herbs+=1; log('🌼 Редкий цветок. +1 трава.','ok'); sfxFind(); break; }
+    case 'mushroom': {
+      if(chance(0.6)){ S.herbs+=1; log('🍄 Съедобный гриб. +1 трава.','ok'); sfxFind(); }
+      else { addHp(-6); log('🍄 Ядовитый гриб! -6 HP.','bad'); sfxFail(); }
+      break;
+    }
+    case 'chest': { const g=rnd(3,20); S.gold+=g; log(`💰 Сундук! +${g} золота.`,'crit'); sfxFind(); break; }
+    case 'stranger': {
+      log('👤 Из тени появляется незнакомец...','hint');
+      if(chance(0.5)){ S.gold+=rnd(1,5); log('Он молча бросает монету и уходит.','ok'); sfxFind(); }
+      else { addAr(20); log('Он хватает Лону за руку — но она вырывается!','bad'); moan('light','sensitive'); }
+      S.lastScene='Таинственный незнакомец встретился Лоне.';
+      break;
+    }
+    case 'ghost': { addAr(15); log('👻 Полупрозрачный силуэт проносится мимо...','bad'); sfxFail(); S.lastScene='Призрак появился перед Лоной.'; break; }
+    case 'trap': { const dmg=rnd(5,15); addHp(-dmg); log(`⚠️ Ловушка! -${dmg} HP.`,'bad'); sfxHit(); break; }
+    case 'sink': { S.muddy=1; addSt(-10); log('🌿 Провалилась в трясину!','bad'); sfxFail(); break; }
+    case 'fog': { log('🌫 Густой туман...','hint'); S.lastScene='Лона идёт сквозь туман.'; break; }
+    case 'wisp': { addAr(10); S.herbs+=1; log('✨ Блуждающий огонёк и трава.','ok'); sfxFind(); break; }
+    case 'rest': { addSt(15); log('🌼 Отдохнула на траве. +15 ст.','ok'); break; }
+    case 'butterfly': { addAr(5); log('🦋 Бабочка на плече.','ok'); break; }
+    case 'swim': {
+      if(chance(0.7)){ S.muddy=0; addSt(-5); log('🌊 Искупалась. Грязь смыта.','ok'); }
+      else { addHp(-8); log('🌊 Течение утащило. -8 HP.','bad'); sfxFail(); }
+      break;
+    }
+    case 'fish': { S.food+=1; log('🐟 Поймала рыбу. +1 еда.','ok'); sfxFind(); break; }
+  }
+}
+
+function sceneBeast(){
+  const beasts = [
+    ['🐺','Голодный волк',10,1],
+    ['🐗','Разъярённый кабан',15,2],
+    ['🐍','Гигантская змея',12,1],
+    ['🦊','Хитрый лис',6,1],
+    ['🐻','Дикий медведь',20,3]
+  ];
+  const [icon,name,_,dmg] = pick(beasts);
+  log(`${icon} ${name} вылетает из кустов!`,'bad');
+  sfxHit();
+  const d = d10();
+  log(`🎲 Реакция: ${d}`);
+  const o = out(d);
+
+  if(o==='crit'){
+    S.scrap+=2; S.kills++;
+    log(`✨ КРИТ! Отбилась, +2 лоскута. Убито: ${S.kills}.`,'crit');
+    addAr(8); sfxFind();
+  } else if(o==='ok'){
+    log('🟢 Увернулась.','ok'); addAr(8);
+  } else if(o==='critfail'){
+    const t = pick(worn());
+    if(t){ t.dur=0; log(`💥 КРИТПРОВАЛ! ${t.name} уничтожена!`,'bad'); }
+    addHp(-dmg*2); addAr(40); S.muddy=1;
+    sfxRip('max'); setTimeout(()=>moan('max','torn'), 200);
+  } else {
+    const targets = worn().sort(()=>Math.random()-.5).slice(0,2);
+    for(const t of targets){ t.dur=Math.max(0,t.dur-1); log(`🔴 ${name} рвёт ${t.name}.`,'bad'); }
+    addHp(-dmg); addAr(30); S.muddy=1;
+    sfxRip('heavy'); setTimeout(()=>moan('heavy','beast'), 200);
+  }
+  S.lastScene = `${name} напал на Лону.`;
+}
+
+function sceneBugs(heavy){
+  const bugs = heavy
+    ? [['🪱','жирные черви'],['🕷️','ядовитые пауки'],['🐛','личинки']]
+    : [['🐝','осы'],['🦟','комары'],['🕸️','паучки']];
+  const [icon,name] = pick(bugs);
+  log(`${icon} ${name} выползают из гнили!`,'bad');
+  const d = d10();
+  log(`🎲 Бросок: ${d}`);
+  const o = out(d);
+
+  if(o==='crit'){ S.scrap+=2; log('✨ КРИТ! Нашла сундук с ветошью.','crit'); addAr(3); sfxFind(); }
+  else if(o==='ok'){ log('🟢 Отбилась, твари отступили.','ok'); addAr(10); }
+  else {
+    const zone = chance(.5)?'pussy':'butt';
+    const tag = zone==='pussy'?'[киска]':'[попка]';
+    const shields = worn().filter(i=>i.covers.includes(zone)&&i.tight&&i.dur>1);
+    if(shields.length){
+      const sh = pick(shields); sh.dur--;
+      if(chance(0.3)){
+        log(s(`⚠️ ${sh.name} прогрызен — лезут прямо к ${tag}!`),'bad');
+        addAr(45); sfxRip('light');
+        setTimeout(()=>moan('heavy','bugs'), 300);
+      } else {
+        log(s(`🟢 ${sh.name} держит оборону.`),'ok'); addAr(15);
+        moan('light','sensitive');
+      }
+    } else {
+      log(s(`🔴 Ничто не защищает ${tag} — твари по коже!`),'bad'); addAr(50);
+      moan('max','bugs');
+    }
+    if(heavy) addHp(-5);
+    S.muddy=1;
+  }
+  S.lastScene = `${name} напали на Лону.`;
+}
+
+function doHunt(){
+  if(S.st<10){ log('Слишком устала.','hint'); return; }
+  addSt(-10);
+  log('⚔️ Лона идёт по следу зверя...');
+  const d = d10();
+  log(`🎲 Охота: ${d}`);
+  const o = out(d);
+  if(o==='crit'){ S.kills++; S.food+=2; S.gold+=rnd(3,10); log('✨ КРИТ! +2 еды, +золото.','crit'); sfxFind(); }
+  else if(o==='ok'){ S.kills++; S.food+=1; log('🟢 Удачная охота. +1 еда.','ok'); }
+  else if(o==='fail'){ log('🟡 След потерян.','hint'); }
+  else { addHp(-8); log('💥 Зверь дал отпор! -8 HP.','bad'); sfxHit(); }
+}
+
+function doRelieve(){
+  log(s('🥵 Лона уединяется. Рука скользит под [лифчик], к [сиськи]...'));
+  log(s('Пальцы ниже, к [киска]...'));
+  addAr(-55); S.muddy=1; addSt(5);
+  log(`💨 Возбуждение: ${S.ar}%`,'ok');
+  moan('heavy','relieve');
+  S.lastScene='Лона уединилась, чтобы сбросить напряжение.';
+}
+
+function doStrip(){
+  const inner = new Set(['bra','panties','swim_top','swim_bottom']);
+  const items = worn().filter(i=>!inner.has(Object.keys(S.ward).find(k=>S.ward[k]===i)));
+  if(!items.length){ log('Срывать нечего.','hint'); return; }
+  for(const i of items){ i.dur=0; log(`👕 Срывает ${i.name}.`); }
+  addAr(20);
+  sfxRip('heavy');
+  setTimeout(()=>moan('light','strip'), 250);
+  S.lastScene = 'Лона сорвала верхнюю одежду.';
+}
+
+function doStitch(){
+  clearLog(); log('🛠️ Что заштопать?'); $('btns').innerHTML = '';
+  const items = Object.values(S.ward).filter(i=>i.dur>0&&i.dur<3);
+  items.forEach(i=>{
+    const b = document.createElement('button');
+    b.innerHTML = `<span class="ico">🧵</span>${i.name} — ${DUR[i.dur]}`;
+    b.onclick = () => { i.dur=Math.min(3,i.dur+1); S.scrap-=2; clearLog();
+      log(`✅ ${i.name} заштопана. Лоскутов: ${S.scrap}.`,'ok'); sfxFind(); endTurn(); };
+    $('btns').appendChild(b);
+  });
+  const c = document.createElement('button'); c.textContent='Отмена';
+  c.onclick = () => { clearLog(); render(); };
+  $('btns').appendChild(c);
+}
+
+function doChange(){
+  clearLog(); log('👗 Какой сет?'); $('btns').innerHTML = '';
+  Object.keys(SETS).forEach(n=>{
+    const b = document.createElement('button');
+    b.innerHTML = `<span class="ico">👗</span>${n}${n===S.set?' (сейчас)':''}`;
+    b.onclick = () => { S.set=n; S.ward=buildWard(n); addAr(5); clearLog();
+      log(`👗 Переоделась в «${n}».`,'ok'); endTurn(); };
+    $('btns').appendChild(b);
+  });
+  const c = document.createElement('button'); c.textContent='Отмена';
+  c.onclick = () => { clearLog(); render(); };
+  $('btns').appendChild(c);
+}
+
+function doRest(){
+  if(S.st>=S.maxSt){ log('Уже отдохнула.','hint'); return; }
+  addSt(30); addHp(5);
+  log('💤 Лона разводит костёр и отдыхает. +30 ст, +5 HP.','ok');
+  if(chance(0.3)){ const d=pick(worn()); if(d){ d.dur=Math.max(0,d.dur-1); log(`⚠️ Ветер порвал ${d.name}.`,'bad'); sfxRip('light'); } }
+}
+
+function renderTravel(div){
+  clearLog();
+  log(`🧭 Лона в: ${LOCS[S.loc].name}`,'loc');
+  log('Куда идти?','hint');
+  LOCS[S.loc].to.forEach(n=>{
+    const b = document.createElement('button'); b.className = 'gold-btn';
+    b.innerHTML = `<span class="ico">➡️</span>${LOCS[n].name}`;
+    b.onclick = () => {
+      S.loc = n; addSt(-5); addAr(3);
+      if(chance(0.2)) S.weather = pick(['Нормальная','Холод','Жара','Дождь']);
+      clearLog();
+      log(`📍 Лона пришла в ${LOCS[n].name}.`,'loc');
+      log(LOCS[n].desc,'hint');
+      endTurn();
+    };
+    div.appendChild(b);
+  });
+  const back = document.createElement('button');
+  back.innerHTML = '<span class="ico">⬅️</span>Назад';
+  back.onclick = () => { S.mode='game'; clearLog(); render(); };
+  div.appendChild(back);
+}
+
+function renderInv(div){
+  clearLog(); log('🎒 Инвентарь','ai');
+  log(`🎒 Лоскуты: ${S.scrap}`,'hint');
+  log(`🌿 Травы: ${S.herbs}`,'hint');
+  log(`🧪 Зелья: ${S.potions}`,'hint');
+  log(`🍖 Еда: ${S.food}`,'hint');
+  log(`💰 Золото: ${S.gold}`,'hint');
+
+  if(S.potions>0){
+    const b=document.createElement('button');
+    b.innerHTML='<span class="ico">🧪</span>Выпить зелье (+30 HP)';
+    b.onclick=()=>{S.potions--;addHp(30);clearLog();log('🧪 Зелье выпито. +30 HP.','ok');sfxFind();endTurn()};
+    div.appendChild(b);
+  }
+  if(S.food>0 && S.hp<S.maxHp){
+    const b=document.createElement('button');
+    b.innerHTML='<span class="ico">🍖</span>Поесть (+15 HP)';
+    b.onclick=()=>{S.food--;addHp(15);clearLog();log('🍖 Поела. +15 HP.','ok');endTurn()};
+    div.appendChild(b);
+  }
+  if(S.herbs>=3){
+    const b=document.createElement('button');
+    b.innerHTML='<span class="ico">🧪</span>Сварить зелье (3 травы)';
+    b.onclick=()=>{S.herbs-=3;S.potions++;clearLog();log('🧪 Сварила зелье!','ok');sfxFind();endTurn()};
+    div.appendChild(b);
+  }
+  const back = document.createElement('button');
+  back.innerHTML='<span class="ico">⬅️</span>Назад';
+  back.onclick=()=>{S.mode='game';clearLog();render()};
+  div.appendChild(back);
+}
+
+function endTurn(){
+  if(S.hp<=0){
+    S.over = 1; clearLog();
+    log('💀 Лона падает без сил...','bad');
+    log('Она очнулась у костра незнакомца. Здоровье восстановлено.','hint');
+    sfxFail();
+    S.hp = 30; S.over = 0; S.turn++;
+    render(); return;
+  }
+  if(chance(0.3)) S.weather = pick(['Нормальная','Холод','Жара','Дождь']);
+  if(S.muddy && chance(0.3)){ S.muddy=0; log('🌿 Грязь оттёрта.','hint'); }
+  if(chance(0.15)) S.time = S.time==='день'?'вечер':S.time==='вечер'?'ночь':'день';
+  if(S.time==='ночь') addAr(5);
+  if(S.ar>=100){
+    log('⚠️ 100%! Бросок на самоконтроль...','bad');
+    const d = d10(); log(`🎲 ${d}`);
+    if(d<5){ S.pending=1; S.ecstasyCount++; log('🔴 СОРВАЛОСЬ!','bad'); }
+    else { addAr(-15); log('🟢 Удержалась.','ok'); }
+  }
+  addSt(3); S.turn++;
+  render();
+}
+
+function sceneEcstasy(){
+  log(s('💗 Лона прижимается к дереву, пальцы сжимают [сиськи]...'),'crit');
+  log(s('Скользят к [киска]... Тело выгибается.'),'crit');
+  addAr(-60); S.muddy=1; addSt(-10);
+  log(`💨 Возбуждение: ${S.ar}%`,'hint');
+  moan('max','ecstasy');
+  S.lastScene = 'Лона в экстазе у дерева.';
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ИИ-ПАНЕЛЬ
+// ══════════════════════════════════════════════════════════════
+function renderAIPanel(div){
+  clearLog(); log('🤖 ИИ-ПАНЕЛЬ','ai');
+  log('Ключ: '+(KEY?'✅ есть':'❌ не задан'), KEY?'ok':'bad');
+  log(CUR?('Модель: '+CUR.slice(0,40)):'Модель: ещё не выбрана','hint');
+  const opts = [
+    ['ai_scene','📖','Дополнить сцену'],
+    ['ai_custom','💬','Спросить ГМ-а'],
+    ['chat','💗','Поговорить с Лоной'],
+    ['scenes','🎬','Вызвать сцену'],
+    ['ai_code','💻','Помочь с кодом'],
+    ['cheat','🛠','Чит-меню'],
+    ['setkey','🔑',(KEY?'Сменить':'Ввести')+' ключ'],
+    ['back','⬅️','В игру']
+  ];
+  opts.forEach(([k,ico,l])=>{
+    const b = document.createElement('button');
+    if(k==='chat') b.className='lona-btn';
+    else if(k==='cheat') b.className='cheat-btn';
+    else if(k==='scenes') b.className='scene-btn';
+    else if(k==='setkey') b.className='key-btn';
+    else b.className='ai-btn';
+    b.innerHTML = `<span class="ico">${ico}</span>${l}`;
+    b.onclick = async () => {
+      if(k==='back'){ S.mode='game'; clearLog(); render(); return; }
+      if(k==='setkey'){ S.mode='key'; clearLog(); render(); return; }
+      if(k==='ai_scene'){ await doAIScene(); return; }
+      if(k==='ai_custom'){ showTextInput('Спроси ГМ-а...', async v => {
+        if(!v) return; clearLog(); log('⏳ ИИ думает...','ai');
+        const r = await askAI(v,'game'); clearLog(); log('─── ИИ ───','ai'); log(s(r));
+        renderAIPanel($('btns'));
+      }); return; }
+      if(k==='ai_code'){ showTextInput('Что написать?', async v => {
+        if(!v) return; clearLog(); log('⏳ ИИ пишет код...','ai');
+        const r = await askAI(v,'code',false); clearLog(); log('─── КОД ───','code'); log(r);
+        renderAIPanel($('btns'));
+      }); return; }
+      if(k==='chat'){ S.mode='chat'; clearLog(); render(); return; }
+      if(k==='scenes'){ S.mode='scenes'; clearLog(); render(); return; }
+      if(k==='cheat'){ S.mode='cheat'; clearLog(); render(); return; }
+    };
+    div.appendChild(b);
+  });
+}
+
+async function doAIScene(){
+  if(!S.lastScene){ clearLog(); log('Нет сцены.','hint'); return renderAIPanel($('btns')); }
+  clearLog(); log('⏳ ИИ пишет сцену...','ai');
+  const r = await askAI(S.lastScene+' Допиши коротко, атмосферно.','game');
+  clearLog(); log('─── СЦЕНА ───','ai'); log(s(r));
+  renderAIPanel($('btns'));
+}
+
+function renderKeyInput(div){
+  clearLog(); log('🔑 Ввод ключа OpenRouter','key-btn');
+  log("Начинается с 'sk-or-v1-...'",'hint');
+  log('Сохранится только в браузере.','hint');
+  $('inputArea').innerHTML = '';
+  const inp = document.createElement('textarea');
+  inp.placeholder = 'sk-or-v1-...';
+  inp.style.fontFamily = 'monospace';
+  inp.style.fontSize = '.82rem';
+  inp.value = KEY || '';
+  $('inputArea').appendChild(inp);
+
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'key-btn';
+  saveBtn.innerHTML = '<span class="ico">💾</span>Сохранить';
+  saveBtn.onclick = () => {
+    const k = inp.value.trim();
+    if(!k.startsWith('sk-or-')){
+      clearLog(); log('❌ Неверный формат.','bad');
+      $('inputArea').innerHTML=''; renderKeyInput($('btns')); return;
+    }
+    saveKey(k);
+    $('inputArea').innerHTML=''; S.mode='ai';
+    clearLog(); log('✅ Ключ сохранён.','ok');
+    render();
+  };
+  div.appendChild(saveBtn);
+
+  const back = document.createElement('button');
+  back.innerHTML = '<span class="ico">⬅️</span>Назад';
+  back.onclick = () => { $('inputArea').innerHTML=''; S.mode='ai'; clearLog(); render(); };
+  div.appendChild(back);
+
+  const clr = document.createElement('button');
+  clr.className = 'danger-btn';
+  clr.innerHTML = '<span class="ico">🗑</span>Удалить ключ';
+  clr.onclick = () => { KEY=''; try{localStorage.removeItem('lona_key_v4');}catch(e){}
+    clearLog(); log('Ключ удалён.','bad');
+    $('inputArea').innerHTML=''; renderKeyInput($('btns')); };
+  div.appendChild(clr);
+  inp.focus();
+}
+
+function renderChat(div){
+  clearLog(); log('💗 Диалог с Лоной','lona');
+  log('Она видит состояние и отвечает в характере.','hint');
+  S.chat.forEach(m => {
+    if(m.role==='user') log('Ты: '+m.content,'me');
+    else log('Лона: '+m.content,'lona');
+  });
+  const inp = document.createElement('textarea');
+  inp.placeholder = 'Напиши Лоне...';
+  $('inputArea').appendChild(inp);
+
+  const send = document.createElement('button');
+  send.className = 'lona-btn';
+  send.innerHTML = '<span class="ico">💬</span>Отправить';
+  send.onclick = async () => {
+    const text = inp.value.trim(); if(!text) return;
+    inp.value = '';
+    S.chat.push({role:'user',content:text});
+    log('Ты: '+text,'me');
+    const lp = document.createElement('p'); lp.className='hint'; lp.textContent='⏳ Лона думает...';
+    $('log').appendChild(lp); $('log').scrollTop=1e9;
+    const r = await askAI(text,'lona',true);
+    S.chat.push({role:'assistant',content:r});
+    lp.remove();
+    log('Лона: '+s(r),'lona');
+    if(S.ar>=60) moan('light','sensitive');
+    inp.focus();
+  };
+  $('inputArea').appendChild(send);
+
+  const back = document.createElement('button');
+  back.innerHTML = '<span class="ico">⬅️</span>Назад';
+  back.onclick = () => { S.mode='ai'; clearLog(); render(); };
+  div.appendChild(back);
+
+  const clr = document.createElement('button');
+  clr.innerHTML = '<span class="ico">🗑</span>Очистить диалог';
+  clr.onclick = () => { S.chat=[]; clearLog(); render(); };
+  div.appendChild(clr);
+}
+
+const SCENE_LIST = [
+  ['beast_wolf','🐺','Волк'],
+  ['beast_boar','🐗','Кабан'],
+  ['bugs_worms','🪱','Черви'],
+  ['bugs_spiders','🕷️','Пауки'],
+  ['relieve','🥵','Сброс'],
+  ['ecstasy','💗','Экстаз'],
+  ['strip','👕','Срыв одежды'],
+  ['muddy','🌿','Упасть в грязь'],
+  ['cold','❄️','Холод'],
+  ['hot','🔥','Жара'],
+  ['rain','🌧','Дождь'],
+  ['stitch','🛠','Штопка'],
+  ['change','👗','Переодеться'],
+  ['find_chest','💰','Сундук'],
+  ['find_berry','🍇','Ягоды'],
+  ['stranger','👤','Незнакомец'],
+  ['ghost','👻','Призрак'],
+  ['custom','✏️','Свой промпт']
+];
+
+function renderScenes(div){
+  clearLog(); log('🎬 Вызвать сцену','scene-btn');
+  log('ИИ опишет и применит эффекты.','hint');
+  SCENE_LIST.forEach(([k,ico,l])=>{
+    const b = document.createElement('button'); b.className = 'scene-btn';
+    b.innerHTML = `<span class="ico">${ico}</span>${l}`;
+    b.onclick = async () => {
+      if(k==='custom'){ showTextInput('Опиши сцену...', async v => {
+        if(!v) return; await playScene(v,null); renderScenes($('btns'));
+      }); return; }
+      await playScene(null,k); renderScenes($('btns'));
+    };
+    div.appendChild(b);
+  });
+  const back = document.createElement('button');
+  back.innerHTML = '<span class="ico">⬅️</span>Назад';
+  back.onclick = () => { S.mode='ai'; clearLog(); render(); };
+  div.appendChild(back);
+}
+
+async function playScene(customText, key){
+  clearLog(); log('🎬 Сцена','scene-btn');
+  let prompt = '', effect = null;
+  switch(key){
+    case 'beast_wolf': prompt='Голодный волк нападает на Лону.'; effect=()=>sceneBeast(); break;
+    case 'beast_boar': prompt='Разъярённый кабан нападает на Лону.'; effect=()=>sceneBeast(); break;
+    case 'bugs_worms': prompt='Жирные черви выползают из гнили.'; effect=()=>sceneBugs(true); break;
+    case 'bugs_spiders': prompt='Мохнатые пауки ползут по телу Лоны.'; effect=()=>sceneBugs(); break;
+    case 'relieve': prompt='Лона уединяется и сбрасывает возбуждение.'; effect=()=>{addAr(-55);S.muddy=1;moan('heavy','relieve')}; break;
+    case 'ecstasy': prompt='Лона достигает экстаза.'; effect=()=>{addAr(-60);S.muddy=1;S.ecstasyCount++;moan('max','ecstasy')}; break;
+    case 'strip': prompt='Лона срывает с себя верхнюю одежду.'; effect=()=>doStrip(); break;
+    case 'muddy': prompt='Лона падает в болотную грязь.'; effect=()=>{S.muddy=1;addAr(10)}; break;
+    case 'cold': prompt='Резко холодает. Соски проступают через ткань.'; effect=()=>{S.weather='Холод';addAr(5)}; break;
+    case 'hot': prompt='Жара. Одежда липнет к телу.'; effect=()=>{S.weather='Жара';addAr(15)}; break;
+    case 'rain': prompt='Дождь. Всё мокрое, одежда облепила тело.'; effect=()=>{S.weather='Дождь';addAr(10);S.muddy=1}; break;
+    case 'stitch': prompt='Лона заштопывает одежду.'; effect=()=>{S.scrap=Math.max(0,S.scrap-1)}; break;
+    case 'change': prompt='Лона переодевается.'; effect=null; break;
+    case 'find_chest': prompt='Лона находит сундук.'; effect=()=>{S.gold+=rnd(5,20)}; break;
+    case 'find_berry': prompt='Лона собирает ягоды.'; effect=()=>{S.food+=1}; break;
+    case 'stranger': prompt='Незнакомец встречает Лону.'; effect=()=>{addAr(15)}; break;
+    case 'ghost': prompt='Призрак появляется перед Лоной.'; effect=()=>{addAr(20)}; break;
+    default: prompt = customText;
+  }
+  if(effect) effect();
+  S.lastScene = prompt;
+  log('📖 '+prompt,'hint');
+  log('⏳ ИИ пишет сцену...','ai');
+  const r = await askAI(prompt,'game');
+  clearLog();
+  log('🎬 СЦЕНА','scene-btn');
+  log(s(r));
+  log(''); log('─── Состояние обновлено ───','hint');
+  render();
+}
+
+function renderCheat(div){
+  clearLog(); log('🛠 Чит-меню','cheat-btn');
+  log('Меняй состояние игры.','hint');
+  const cheats = [
+    ['❤️ +50 HP',()=>addHp(50)],
+    ['❤️ Полное HP',()=>{S.hp=S.maxHp}],
+    ['⚡ +50 выносливости',()=>addSt(50)],
+    ['💗 +20 возбуждения',()=>addAr(20)],
+    ['💗 +50 возбуждения',()=>addAr(50)],
+    ['💗 Обнулить возбуждение',()=>{S.ar=0}],
+    ['🎒 +10 лоскутов',()=>{S.scrap+=10}],
+    ['🌿 +5 трав',()=>{S.herbs+=5}],
+    ['🧪 +3 зелья',()=>{S.potions+=3}],
+    ['🍖 +5 еды',()=>{S.food+=5}],
+    ['💰 +100 золота',()=>{S.gold+=100}],
+    ['👕 Порвать всю одежду (-1)',()=>{Object.values(S.ward).forEach(i=>i.dur=Math.max(0,i.dur-1));sfxRip('heavy')}],
+    ['🔴 Уничтожить всю одежду',()=>{Object.values(S.ward).forEach(i=>i.dur=0);sfxRip('max')}],
+    ['✅ Починить всю одежду',()=>{Object.values(S.ward).forEach(i=>i.dur=3)}],
+    ['🌿 Загрязнить',()=>{S.muddy=1}],
+    ['✨ Очистить',()=>{S.muddy=0}],
+    ['🌤 Сменить погоду',()=>{S.weather=pick(['Нормальная','Холод','Жара','Дождь'])}],
+    ['🕐 Сменить время',()=>{S.time=pick(['день','вечер','ночь'])}],
+    ['🎬 Пропустить ход',()=>{S.turn++}],
+    ['⚔️ +1 убийство',()=>{S.kills++}],
+    ['💗 Тест стона',()=>moan('max','ecstasy')],
+    ['🩹 Тест разрыва',()=>sfxRip('heavy')]
+  ];
+  cheats.forEach(([label,fn])=>{
+    const b = document.createElement('button'); b.className = 'cheat-btn'; b.textContent = label;
+    b.onclick = () => { fn(); render(); renderCheat($('btns')); };
+    div.appendChild(b);
+  });
+  const back = document.createElement('button');
+  back.innerHTML = '<span class="ico">⬅️</span>Назад';
+  back.onclick = () => { S.mode='ai'; clearLog(); render(); };
+  div.appendChild(back);
+}
+
+function showTextInput(placeholder, callback){
+  $('inputArea').innerHTML = '';
+  const inp = document.createElement('textarea');
+  inp.placeholder = placeholder;
+  $('inputArea').appendChild(inp);
+  const btn = document.createElement('button');
+  btn.innerHTML = '<span class="ico">✅</span>Отправить';
+  btn.onclick = () => { $('inputArea').innerHTML=''; callback(inp.value.trim()); };
+  $('inputArea').appendChild(btn);
+  const cancel = document.createElement('button');
+  cancel.innerHTML = '<span class="ico">✖</span>Отмена';
+  cancel.onclick = () => { $('inputArea').innerHTML=''; render(); };
+  $('inputArea').appendChild(cancel);
+  inp.focus();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  СТАРТ
+// ══════════════════════════════════════════════════════════════
+render();
+log('🌲 Лона стоит на опушке тёмного леса.','loc');
+log('Позади — дом, впереди — неизвестность.','hint');
+log('💡 🎨 — темы, 🔊 — звук, 🤖 — ИИ.','hint');
+if(!KEY) log('🔑 Ключ ИИ не введён. 🤖 → 🔑 Ввести ключ.','bad');
+log('⚠️ Включи 🔊 — будут звуки разрыва, удара и стонов.','hint');
+</script></body></html>
