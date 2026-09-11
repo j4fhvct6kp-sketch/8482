@@ -3,10 +3,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Lona RPG</title>
 <style>
-:root{--bg:#13080d;--bg2:#1a0a12;--pnl:rgba(36,20,25,.85);--bd:#3d2230;--tx:#f0e6ea;--dm:#a88b96;--ac:#e56b9b;--ac2:#8b3a62;--ok:#5ad67d;--bad:#e56b6b;--wr:#ffd76a;--fs:14px}
-[data-theme=night]{--bg:#0a0f1a;--bg2:#0d1424;--pnl:rgba(20,28,46,.85);--bd:#2a3d5c;--tx:#dce8f5;--dm:#7a8ba8;--ac:#6ba8e5;--ac2:#3a5a8b}
-[data-theme=dawn]{--bg:#faf0e8;--bg2:#f5e5d8;--pnl:rgba(255,255,255,.85);--bd:#e0c8b8;--tx:#3a2820;--dm:#8a7060;--ac:#d4647a;--ac2:#a04058}
-[data-theme=witch]{--bg:#0f0a1a;--bg2:#150a20;--pnl:rgba(30,20,46,.85);--bd:#4a2d6a;--tx:#e8d8f5;--dm:#9a82b8;--ac:#a86be5;--ac2:#5a3a8b}
+:root{--bg:#13080d;--bg2:#1a0a12;--pnl:rgba(36,20,25,.85);--bd:#3d2230;--tx:#f0e6ea;--dm:#a88b96;--ac:#e56b9b;--ac2:#8b3a62;--ok:#5ad67d;--bad:#e56b6b;--wr:#ffd76a;--fs:14px;--skin:#f0d0d8;--hair:#3a2028;--cloth:#8a6a9a;--cloth2:#5a4a5a}
+[data-theme=night]{--bg:#0a0f1a;--bg2:#0d1424;--pnl:rgba(20,28,46,.85);--bd:#2a3d5c;--tx:#dce8f5;--dm:#7a8ba8;--ac:#6ba8e5;--ac2:#3a5a8b;--hair:#1a1018;--cloth:#3a5a8b;--cloth2:#2a3d5c}
+[data-theme=dawn]{--bg:#faf0e8;--bg2:#f5e5d8;--pnl:rgba(255,255,255,.85);--bd:#e0c8b8;--tx:#3a2820;--dm:#8a7060;--ac:#d4647a;--ac2:#a04058;--hair:#5a4030;--cloth:#d4647a;--cloth2:#c9a87c}
+[data-theme=witch]{--bg:#0f0a1a;--bg2:#150a20;--pnl:rgba(30,20,46,.85);--bd:#4a2d6a;--tx:#e8d8f5;--dm:#9a82b8;--ac:#a86be5;--ac2:#5a3a8b;--hair:#2a1830;--cloth:#a86be5;--cloth2:#5a3a8b}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 body{background:radial-gradient(circle at 50% 0,var(--bg2),var(--bg) 70%);color:var(--tx);font-family:-apple-system,sans-serif;padding:10px;min-height:100vh;font-size:var(--fs);overflow-x:hidden}
@@ -20,11 +20,11 @@ body[data-ar=max]{background:radial-gradient(circle at 50% 0,var(--ac),var(--bg)
 h1{color:var(--ac);font-size:.9rem;letter-spacing:.2em;margin:0;font-weight:600;text-align:center;flex:1}
 .ib{background:transparent;border:1px solid var(--bd);color:var(--tx);width:36px;height:36px;border-radius:9px;font-size:1rem;padding:0;cursor:pointer;flex-shrink:0}
 .ib.on{border-color:var(--ac)}
-.av{position:relative;width:100%;height:130px;background:var(--pnl);border:1px solid var(--bd);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:6px}
-.av .fc{font-size:64px}
-.av .md{position:absolute;bottom:6px;right:10px;font-size:.72rem;color:var(--dm);background:rgba(0,0,0,.35);padding:3px 9px;border-radius:10px}
-.av .wi{position:absolute;top:8px;right:10px;font-size:1.1rem}
-.av .li{position:absolute;top:8px;left:10px;font-size:.75rem;color:var(--dm);background:rgba(0,0,0,.35);padding:3px 9px;border-radius:10px}
+.av{position:relative;width:100%;height:200px;background:var(--pnl);border:1px solid var(--bd);border-radius:14px;margin-bottom:6px;overflow:hidden}
+.av svg{width:100%;height:100%;display:block}
+.av .md{position:absolute;bottom:6px;right:10px;font-size:.72rem;color:var(--dm);background:rgba(0,0,0,.35);padding:3px 9px;border-radius:10px;z-index:2}
+.av .wi{position:absolute;top:8px;right:10px;font-size:1.1rem;z-index:2}
+.av .li{position:absolute;top:8px;left:10px;font-size:.75rem;color:var(--dm);background:rgba(0,0,0,.35);padding:3px 9px;border-radius:10px;z-index:2}
 .cd{background:var(--pnl);border:1px solid var(--bd);border-radius:11px;padding:9px;margin:5px 0;font-size:.82rem}
 .rw{display:flex;justify-content:space-between;padding:2px 0;gap:8px}
 .rw b{font-weight:500;text-align:right}
@@ -33,7 +33,7 @@ h1{color:var(--ac);font-size:.9rem;letter-spacing:.2em;margin:0;font-weight:600;
 .hp>div{background:linear-gradient(90deg,#6a1010,#e56b6b)}
 .st>div{background:linear-gradient(90deg,#205080,#6b9ee5)}
 .ar>div{background:linear-gradient(90deg,var(--ac2),var(--ac))}
-.lg{min-height:120px;max-height:36vh;overflow-y:auto;line-height:1.55}
+.lg{min-height:120px;max-height:34vh;overflow-y:auto;line-height:1.55}
 .lg p{margin:0 0 6px}
 .ok{color:var(--ok)}.bad{color:var(--bad)}.cr{color:var(--wr);font-weight:600}
 .hn{color:var(--dm);font-style:italic}.ai{color:#c98aff}.lo{color:var(--ac)}.me{color:#8ec8e5}
@@ -73,6 +73,13 @@ input[type=range]{width:120px;accent-color:var(--ac)}
 .th-row button.on{border-color:var(--ac)}
 .ver{text-align:center;color:var(--ac);font-size:.9rem;margin:24px 0 12px;letter-spacing:.12em;font-weight:700;padding:12px;background:var(--pnl);border:2px solid var(--ac);border-radius:12px}
 .ver small{display:block;color:var(--dm);font-size:.7rem;font-weight:400;margin-top:4px}
+/* SVG анимации */
+.fc-soft{animation:fcsoft 4s ease-in-out infinite}
+@keyframes fcsoft{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+.hb{animation:hb 1.2s ease-in-out infinite}
+@keyframes hb{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.15);opacity:1}}
+.shk{animation:shk .15s infinite}
+@keyframes shk{0%,100%{transform:translateX(0)}50%{transform:translateX(1px)}}
 </style></head><body data-theme="rose" data-ar="low">
 <div class="wrap">
   <div class="ab" id="ab">👆 Тапни чтобы включить звук</div>
@@ -84,7 +91,7 @@ input[type=range]{width:120px;accent-color:var(--ac)}
   <div class="av">
     <div class="li" id="li">🌲 Тёмный лес</div>
     <div class="wi" id="wi">🌤</div>
-    <div class="fc" id="fc">🙂</div>
+    <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
     <div class="md" id="md">Спокойна</div>
   </div>
   <div class="cd" id="stats">Загрузка...</div>
@@ -92,7 +99,7 @@ input[type=range]{width:120px;accent-color:var(--ac)}
   <div class="cd lg" id="lg"></div>
   <div id="ia"></div>
   <div id="bt"></div>
-  <div class="ver">LONA RPG · v14<small>build 2026-09-11</small></div>
+  <div class="ver">LONA RPG · v15<small>build 2026-09-11 · SVG-Лона + новые сцены</small></div>
 </div>
 <div class="ts" id="ts"></div>
 <div class="mo" id="mo"></div>
@@ -101,21 +108,9 @@ input[type=range]{width:120px;accent-color:var(--ac)}
 // ══════════════════════════════════════════
 //  КОНФИГ
 // ══════════════════════════════════════════
-var CFG = {
-  theme: 'rose',
-  masterVol: 0.7,
-  fontSize: 14,
-  anim: true,
-  vib: true,
-  volMoan: 1, volSigh: 1, volRip: 1, volHit: 1, volFind: 1, volFail: 1
-};
-try {
-  var saved = localStorage.getItem('lc14');
-  if (saved) Object.assign(CFG, JSON.parse(saved));
-} catch(e) {}
-function sCfg() {
-  try { localStorage.setItem('lc14', JSON.stringify(CFG)); } catch(e) {}
-}
+var CFG = {theme:'rose',masterVol:.7,fontSize:14,vib:true,volMoan:1,volSigh:1,volRip:1,volHit:1,volFind:1,volFail:1};
+try { var sv = localStorage.getItem('lc15'); if (sv) Object.assign(CFG, JSON.parse(sv)); } catch(e) {}
+function sCfg() { try { localStorage.setItem('lc15', JSON.stringify(CFG)); } catch(e) {} }
 function applyCfg() {
   document.body.dataset.theme = CFG.theme;
   document.documentElement.style.setProperty('--fs', CFG.fontSize + 'px');
@@ -123,1391 +118,1193 @@ function applyCfg() {
 }
 
 // ══════════════════════════════════════════
-//  АУДИО
+//  АУДИО (компактно)
 // ══════════════════════════════════════════
-var snd = false;
-var ac = null;
-
-function getAC() {
-  if (ac) return ac;
-  try { ac = new (window.AudioContext || window.webkitAudioContext)(); }
-  catch(e) { ac = null; }
-  return ac;
-}
-
+var snd = false, ac = null;
+function getAC() { if (ac) return ac; try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){ ac=null; } return ac; }
 function unlock() {
-  var c = getAC();
-  if (!c) return Promise.resolve(false);
+  var c = getAC(); if (!c) return Promise.resolve(false);
   var p = (c.state === 'suspended') ? c.resume() : Promise.resolve();
   return p.then(function() {
-    try {
-      var b = c.createBuffer(1, 1, 22050);
-      var s = c.createBufferSource();
-      s.buffer = b; s.connect(c.destination); s.start(0);
-    } catch(e) {}
+    try { var b=c.createBuffer(1,1,22050); var s=c.createBufferSource(); s.buffer=b; s.connect(c.destination); s.start(0); } catch(e){}
     return c.state === 'running';
   });
 }
-
-document.getElementById('ab').addEventListener('touchstart', function(e) {
+document.getElementById('ab').addEventListener('touchstart', function(e){
   e.stopPropagation();
-  unlock().then(function(ok) {
-    if (!ok) return;
-    snd = true;
-    var b = document.getElementById('sb');
-    b.textContent = '🔊';
-    b.classList.add('on');
+  unlock().then(function(ok){
+    if(!ok) return;
+    snd=true;
+    var b=document.getElementById('sb'); b.textContent='🔊'; b.classList.add('on');
     document.getElementById('ab').classList.add('hide');
-    toast('Звук включён');
-    testSound();
+    toast('Звук включён'); tstSnd();
   });
 });
-
-function togSnd() {
-  var b = document.getElementById('sb');
-  if (!snd) {
-    unlock().then(function(ok) {
-      if (!ok) return;
-      snd = true;
-      b.textContent = '🔊';
-      b.classList.add('on');
+function togSnd(){
+  var b=document.getElementById('sb');
+  if(!snd){
+    unlock().then(function(ok){
+      if(!ok) return;
+      snd=true; b.textContent='🔊'; b.classList.add('on');
       document.getElementById('ab').classList.add('hide');
-      toast('Звук включён');
-      testSound();
+      toast('Звук включён'); tstSnd();
     });
   } else {
-    snd = false;
-    b.textContent = '🔇';
-    b.classList.remove('on');
+    snd=false; b.textContent='🔇'; b.classList.remove('on');
     toast('Звук выключен');
   }
 }
+function tstSnd(){ beep(660,.1,.08); setTimeout(function(){beep(880,.14,.08);},120); }
+function beep(f,d,v){ if(!snd||!ac||ac.state!=='running')return; try{ var n=ac.currentTime,o=ac.createOscillator(),g=ac.createGain(); o.frequency.value=f; o.type='sine'; g.gain.setValueAtTime(.0001,n); g.gain.linearRampToValueAtTime(v*CFG.masterVol,n+.008); g.gain.exponentialRampToValueAtTime(.0001,n+d); o.connect(g); g.connect(ac.destination); o.start(n); o.stop(n+d+.02);}catch(e){} }
 
-function testSound() {
-  beep(660, 0.1, 0.08);
-  setTimeout(function() { beep(880, 0.14, 0.08); }, 120);
-}
-
-function beep(f, d, v) {
-  if (!snd || !ac) return;
-  if (ac.state !== 'running') return;
-  try {
-    var n = ac.currentTime;
-    var o = ac.createOscillator();
-    var g = ac.createGain();
-    o.frequency.value = f;
-    o.type = 'sine';
-    g.gain.setValueAtTime(0.0001, n);
-    g.gain.linearRampToValueAtTime(v * CFG.masterVol, n + 0.008);
-    g.gain.exponentialRampToValueAtTime(0.0001, n + d);
-    o.connect(g); g.connect(ac.destination);
-    o.start(n); o.stop(n + d + 0.02);
-  } catch(e) {}
-}
-
-// Простой стон (короткий)
-function moanSnd(level) {
-  if (!snd || !ac || ac.state !== 'running') return;
-  var vol = CFG.masterVol * CFG.volMoan;
-  if (vol <= 0) return;
-  try {
-    var c = ac;
-    var n = c.currentTime;
-    var f0 = (level === 'max') ? 430 : (level === 'heavy') ? 380 : 340;
-    var f1 = (level === 'max') ? 560 : (level === 'heavy') ? 470 : 400;
-    var dur = (level === 'max') ? 1.5 : (level === 'heavy') ? 1.1 : 0.7;
-    var o = c.createOscillator();
-    o.type = 'sawtooth';
-    o.frequency.setValueAtTime(f0, n);
-    o.frequency.linearRampToValueAtTime(f1, n + dur * 0.75);
-    var m = c.createGain();
-    m.gain.setValueAtTime(0.0001, n);
-    m.gain.linearRampToValueAtTime(0.12 * vol, n + 0.12);
-    m.gain.setValueAtTime(0.12 * vol, n + dur * 0.45);
-    m.gain.exponentialRampToValueAtTime(0.0001, n + dur);
-    // 3 форманта
-    [850, 1220, 2810].forEach(function(fq) {
-      var bp = c.createBiquadFilter();
-      bp.type = 'bandpass';
-      bp.frequency.value = fq;
-      bp.Q.value = 12;
+function moanSnd(lv){
+  if(!snd||!ac||ac.state!=='running')return;
+  var vol=CFG.masterVol*CFG.volMoan; if(vol<=0)return;
+  try{
+    var c=ac,n=c.currentTime;
+    var f0=(lv==='max')?430:(lv==='heavy')?380:340;
+    var f1=(lv==='max')?560:(lv==='heavy')?470:400;
+    var dur=(lv==='max')?1.5:(lv==='heavy')?1.1:.7;
+    var o=c.createOscillator(); o.type='sawtooth';
+    o.frequency.setValueAtTime(f0,n);
+    o.frequency.linearRampToValueAtTime(f1,n+dur*.75);
+    var m=c.createGain();
+    m.gain.setValueAtTime(.0001,n);
+    m.gain.linearRampToValueAtTime(.12*vol,n+.12);
+    m.gain.setValueAtTime(.12*vol,n+dur*.45);
+    m.gain.exponentialRampToValueAtTime(.0001,n+dur);
+    [850,1220,2810].forEach(function(fq){
+      var bp=c.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=fq; bp.Q.value=12;
       o.connect(bp); bp.connect(m);
     });
     m.connect(c.destination);
-    o.start(n); o.stop(n + dur + 0.2);
-  } catch(e) {}
+    o.start(n); o.stop(n+dur+.2);
+  }catch(e){}
 }
-
-// Разрыв ткани
-function rip(level) {
-  if (!snd || !ac || ac.state !== 'running') return;
-  var vol = CFG.masterVol * CFG.volRip;
-  if (vol <= 0) return;
-  try {
-    var c = ac;
-    var n = c.currentTime;
-    var count = (level === 'max') ? 8 : (level === 'heavy') ? 5 : 3;
-    for (var i = 0; i < count; i++) {
-      var t = n + i * 0.04;
-      var buf = c.createBuffer(1, 2048, c.sampleRate);
-      var d = buf.getChannelData(0);
-      for (var j = 0; j < 2048; j++) d[j] = (Math.random() * 2 - 1) * (1 - j / 2048);
-      var s = c.createBufferSource();
-      s.buffer = buf;
-      var hp = c.createBiquadFilter();
-      hp.type = 'highpass';
-      hp.frequency.value = 1200;
-      var g = c.createGain();
-      g.gain.setValueAtTime(0.0001, t);
-      g.gain.linearRampToValueAtTime(0.1 * vol, t + 0.005);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.1);
+function rip(lv){
+  if(!snd||!ac||ac.state!=='running')return;
+  var vol=CFG.masterVol*CFG.volRip; if(vol<=0)return;
+  try{
+    var c=ac,n=c.currentTime;
+    var cnt=(lv==='max')?8:(lv==='heavy')?5:3;
+    for(var i=0;i<cnt;i++){
+      var t=n+i*.04;
+      var buf=c.createBuffer(1,2048,c.sampleRate);
+      var d=buf.getChannelData(0);
+      for(var j=0;j<2048;j++) d[j]=(Math.random()*2-1)*(1-j/2048);
+      var s=c.createBufferSource(); s.buffer=buf;
+      var hp=c.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=1200;
+      var g=c.createGain();
+      g.gain.setValueAtTime(.0001,t);
+      g.gain.linearRampToValueAtTime(.1*vol,t+.005);
+      g.gain.exponentialRampToValueAtTime(.0001,t+.1);
       s.connect(hp); hp.connect(g); g.connect(c.destination);
-      s.start(t); s.stop(t + 0.12);
+      s.start(t); s.stop(t+.12);
     }
-  } catch(e) {}
+  }catch(e){}
 }
-
-// Удар
-function hit() {
-  if (!snd || !ac || ac.state !== 'running') return;
-  var vol = CFG.masterVol * CFG.volHit;
-  if (vol <= 0) return;
-  try {
-    var c = ac;
-    var n = c.currentTime;
-    var o = c.createOscillator();
-    o.type = 'sine';
-    o.frequency.setValueAtTime(140, n);
-    o.frequency.exponentialRampToValueAtTime(40, n + 0.15);
-    var g = c.createGain();
-    g.gain.setValueAtTime(0.0001, n);
-    g.gain.linearRampToValueAtTime(0.22 * vol, n + 0.005);
-    g.gain.exponentialRampToValueAtTime(0.001, n + 0.28);
+function hit(){
+  if(!snd||!ac||ac.state!=='running')return;
+  var vol=CFG.masterVol*CFG.volHit; if(vol<=0)return;
+  try{
+    var c=ac,n=c.currentTime;
+    var o=c.createOscillator(); o.type='sine';
+    o.frequency.setValueAtTime(140,n);
+    o.frequency.exponentialRampToValueAtTime(40,n+.15);
+    var g=c.createGain();
+    g.gain.setValueAtTime(.0001,n);
+    g.gain.linearRampToValueAtTime(.22*vol,n+.005);
+    g.gain.exponentialRampToValueAtTime(.001,n+.28);
     o.connect(g); g.connect(c.destination);
-    o.start(n); o.stop(n + 0.32);
-  } catch(e) {}
+    o.start(n); o.stop(n+.32);
+  }catch(e){}
 }
-
-// Находка
-function fnd() {
-  if (!snd || !ac || ac.state !== 'running') return;
-  var vol = CFG.masterVol * CFG.volFind;
-  if (vol <= 0) return;
-  var c = ac;
-  var n = c.currentTime;
-  [784, 988, 1175, 1568].forEach(function(f, i) {
-    var t = n + i * 0.06;
-    var o = c.createOscillator();
-    o.type = 'triangle';
-    o.frequency.value = f;
-    var g = c.createGain();
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.linearRampToValueAtTime(0.07 * vol, t + 0.01);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.35);
+function fnd(){
+  if(!snd||!ac||ac.state!=='running')return;
+  var vol=CFG.masterVol*CFG.volFind; if(vol<=0)return;
+  var c=ac,n=c.currentTime;
+  [784,988,1175,1568].forEach(function(f,i){
+    var t=n+i*.06;
+    var o=c.createOscillator(); o.type='triangle'; o.frequency.value=f;
+    var g=c.createGain();
+    g.gain.setValueAtTime(.0001,t);
+    g.gain.linearRampToValueAtTime(.07*vol,t+.01);
+    g.gain.exponentialRampToValueAtTime(.0001,t+.35);
     o.connect(g); g.connect(c.destination);
-    o.start(t); o.stop(t + 0.4);
+    o.start(t); o.stop(t+.4);
   });
 }
-
-// Провал
-function fai() {
-  if (!snd || !ac || ac.state !== 'running') return;
-  var vol = CFG.masterVol * CFG.volFail;
-  if (vol <= 0) return;
-  try {
-    var c = ac;
-    var n = c.currentTime;
-    var o = c.createOscillator();
-    o.type = 'triangle';
-    o.frequency.setValueAtTime(220, n);
-    o.frequency.exponentialRampToValueAtTime(70, n + 0.5);
-    var g = c.createGain();
-    g.gain.setValueAtTime(0.0001, n);
-    g.gain.linearRampToValueAtTime(0.14 * vol, n + 0.02);
-    g.gain.exponentialRampToValueAtTime(0.001, n + 0.55);
+function fai(){
+  if(!snd||!ac||ac.state!=='running')return;
+  var vol=CFG.masterVol*CFG.volFail; if(vol<=0)return;
+  try{
+    var c=ac,n=c.currentTime;
+    var o=c.createOscillator(); o.type='triangle';
+    o.frequency.setValueAtTime(220,n);
+    o.frequency.exponentialRampToValueAtTime(70,n+.5);
+    var g=c.createGain();
+    g.gain.setValueAtTime(.0001,n);
+    g.gain.linearRampToValueAtTime(.14*vol,n+.02);
+    g.gain.exponentialRampToValueAtTime(.001,n+.55);
     o.connect(g); g.connect(c.destination);
-    o.start(n); o.stop(n + 0.6);
-  } catch(e) {}
+    o.start(n); o.stop(n+.6);
+  }catch(e){}
 }
 
-// Стон + текст
+// ══════════════════════════════════════════
+//  СТОНЫ
+// ══════════════════════════════════════════
 var MT = {
-  light: ['Ах...','Ммм...','Ох...','Ай...','Н-н-н...'],
-  heavy: ['Ааах!..','Ммаа~','Ооох!..','Ня~','Ммм~!'],
-  max: ['ААААХ!~','МММАА~!!','ОООХ~!','Аааа~!!']
+  light:['Ах...','Ммм...','Ох...','Ай...','Н-н-н...'],
+  heavy:['Ааах!..','Ммаа~','Ооох!..','Ня~','Ммм~!'],
+  max:['ААААХ!~','МММАА~!!','ОООХ~!','Аааа~!!']
 };
 var MH = {
-  torn: '— одежда порвана...',
-  bugs: '— что-то ползёт по коже!',
-  relieve: '— она уединилась...',
-  ecstasy: '— потеряла контроль!',
-  strip: '— срывает одежду...',
-  sensitive: '— что-то чувствительное...',
-  beast: '— зверь рядом...'
+  torn:'— одежда порвана...', bugs:'— что-то ползёт по коже!',
+  relieve:'— она уединилась...', ecstasy:'— потеряла контроль!',
+  strip:'— срывает одежду...', sensitive:'— что-то чувствительное...',
+  beast:'— зверь рядом...', wound:'— её ранили...'
 };
-function moan(level, ctx) {
-  var e = document.getElementById('mo');
-  if (!e) return;
-  var txt = pk(MT[level] || MT.light);
-  var hint = MH[ctx] || '';
-  e.innerHTML = txt + (hint ? '<span class="sb">' + hint + '</span>' : '');
-  e.classList.remove('sh');
-  void e.offsetWidth;
-  e.classList.add('sh');
+function moan(level, ctx){
+  var e=document.getElementById('mo'); if(!e) return;
+  var txt=pk(MT[level]||MT.light);
+  var hint=MH[ctx]||'';
+  e.innerHTML=txt+(hint?'<span class="sb">'+hint+'</span>':'');
+  e.classList.remove('sh'); void e.offsetWidth; e.classList.add('sh');
   moanSnd(level);
-  if (CFG.vib && navigator.vibrate) try { navigator.vibrate(40); } catch(e) {}
+  if(CFG.vib&&navigator.vibrate) try{navigator.vibrate(40);}catch(e){}
 }
 
 // ══════════════════════════════════════════
 //  УТИЛИТЫ
 // ══════════════════════════════════════════
-function $(id) { return document.getElementById(id); }
-function cl(v, a, b) { return Math.max(a, Math.min(b, v)); }
-function rnd(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
-function ch(p) { return Math.random() < p; }
-function pk(a) { return a[Math.floor(Math.random() * a.length)]; }
-function d10() { return Math.floor(Math.random() * 10) + 1; }
-
-function out(v) {
-  if (v <= 3) return 'cf';
-  if (v <= 5) return 'f';
-  if (v === 10) return 'cr';
-  return 'ok';
-}
-
-function lg(t, c) {
-  var p = document.createElement('p');
-  if (c) p.className = c;
-  p.textContent = t;
-  var L = $('lg');
-  L.appendChild(p);
-  L.scrollTop = 1e9;
-}
-function clLg() { $('lg').innerHTML = ''; }
-
-function toast(m) {
-  var t = $('ts');
-  t.textContent = m;
-  t.classList.add('sh');
-  clearTimeout(t._t);
-  t._t = setTimeout(function() { t.classList.remove('sh'); }, 1500);
-}
+function $(id){ return document.getElementById(id); }
+function cl(v,a,b){ return Math.max(a,Math.min(b,v)); }
+function rnd(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+function ch(p){ return Math.random()<p; }
+function pk(a){ return a[Math.floor(Math.random()*a.length)]; }
+function d10(){ return Math.floor(Math.random()*10)+1; }
+function out(v){ if(v<=3)return'cf'; if(v<=5)return'f'; if(v===10)return'cr'; return'ok'; }
+function lg(t,c){ var p=document.createElement('p'); if(c)p.className=c; p.textContent=t; var L=$('lg'); L.appendChild(p); L.scrollTop=1e9; }
+function clLg(){ $('lg').innerHTML=''; }
+function toast(m){ var t=$('ts'); t.textContent=m; t.classList.add('sh'); clearTimeout(t._t); t._t=setTimeout(function(){t.classList.remove('sh');},1500); }
 
 // ══════════════════════════════════════════
-//  ДАННЫЕ ИГРЫ
+//  ДАННЫЕ
 // ══════════════════════════════════════════
 var SETS = {
-  'Обычный': {
-    top: ['Майка', 1, ['breasts']],
-    bra: ['Лифчик', 1, ['breasts']],
-    bottom: ['Шорты', 0, ['butt','pussy']],
-    panties: ['Трусики', 1, ['butt','pussy']]
-  },
-  'Уличный': {
-    top: ['Топ', 1, ['breasts']],
-    bra: ['Лифчик', 1, ['breasts']],
-    bottom: ['Юбка', 0, ['butt']],
-    panties: ['Трусики', 1, ['butt','pussy']]
-  },
-  'Спортивный': {
-    outer: ['Худи', 0, ['breasts']],
-    bottom: ['Обтяг. шорты', 1, ['butt','pussy']],
-    panties: ['Спорт. трусики', 1, ['butt','pussy']]
-  },
-  'Купальник': {
-    swim_top: ['Верх куп.', 1, ['breasts']],
-    swim_bottom: ['Плавки', 1, ['butt','pussy']]
-  }
+  'Обычный': { top:['Майка',1,['breasts']], bra:['Лифчик',1,['breasts']], bottom:['Шорты',0,['butt','pussy']], panties:['Трусики',1,['butt','pussy']] },
+  'Уличный': { top:['Топ',1,['breasts']], bra:['Лифчик',1,['breasts']], bottom:['Юбка',0,['butt']], panties:['Трусики',1,['butt','pussy']] },
+  'Спортивный': { outer:['Худи',0,['breasts']], bottom:['Обтяг. шорты',1,['butt','pussy']], panties:['Спорт. трусики',1,['butt','pussy']] },
+  'Купальник': { swim_top:['Верх куп.',1,['breasts']], swim_bottom:['Плавки',1,['butt','pussy']] }
 };
-
-var SL = {
-  outer: 'Верх', top: 'Верх', bra: 'Лифчик',
-  bottom: 'Низ', panties: 'Трусики',
-  swim_top: 'Куп.верх', swim_bottom: 'Куп.низ'
-};
-
-var DUR = { 3:'✅', 2:'⚠️', 1:'❌', 0:'🔴' };
-
+var SL = { outer:'Верх',top:'Верх',bra:'Лифчик',bottom:'Низ',panties:'Трусики',swim_top:'Куп.верх',swim_bottom:'Куп.низ' };
+var DUR = {3:'✅',2:'⚠️',1:'❌',0:'🔴'};
 var SG = {
-  '[попка]': ['попка','жопка','попа'],
-  '[сиськи]': ['сиськи','сиси','грудь'],
-  '[киска]': ['киска','писька','вагина'],
-  '[лифчик]': ['лифчик','бюстгальтер']
+  '[попка]':['попка','жопка','попа'], '[сиськи]':['сиськи','сиси','грудь'],
+  '[киска]':['киска','писька','вагина'], '[лифчик]':['лифчик','бюстгальтер']
 };
+function s(t){ for(var k in SG){ while(t.indexOf(k)!==-1) t=t.replace(k,pk(SG[k])); } return t; }
 
-function s(t) {
-  for (var k in SG) {
-    while (t.indexOf(k) !== -1) {
-      t = t.replace(k, pk(SG[k]));
-    }
-  }
-  return t;
-}
-
+// ЛОКАЦИИ — расширено
 var LOC = {
-  forest: { n:'🌲 Тёмный лес', d:'Вековые ели, птицы молчат.', to:['swamp','ruins','clearing'], ev:['beast','bugs','scrap','berry','stranger','mushroom'] },
-  swamp: { n:'🌿 Гнилое болото', d:'Пахнет тиной и гнилью.', to:['forest','ruins'], ev:['bugs2','sink','fog','wisp','scrap'] },
-  ruins: { n:'🏚 Старые руины', d:'Разрушенная стена, обломки.', to:['forest','swamp','village'], ev:['ghost','chest','beast','trap','mushroom'] },
-  clearing: { n:'🌼 Поляна', d:'Солнечный свет, мягкая трава.', to:['forest','village'], ev:['flower','rest','butterfly','berry','scrap'] },
-  village: { n:'🏘 Заброшенная деревня', d:'Пустые дома, скрипящие двери.', to:['ruins','clearing','river'], ev:['stranger','chest','ghost','scrap','mushroom'] },
-  river: { n:'🌊 Река', d:'Быстрая холодная вода.', to:['village','forest'], ev:['swim','scrap','beast','fish','berry'] }
+  forest:{ n:'🌲 Тёмный лес', d:'Вековые ели, птицы молчат.', to:['swamp','ruins','clearing','cave'], ev:['beast','bugs','scrap','berry','stranger','mushroom','wound_traveler'] },
+  swamp:{ n:'🌿 Гнилое болото', d:'Пахнет тиной и гнилью.', to:['forest','ruins','witch'], ev:['bugs2','sink','fog','wisp','scrap','altar'] },
+  ruins:{ n:'🏚 Старые руины', d:'Разрушенная стена, обломки.', to:['forest','swamp','village','graveyard'], ev:['ghost','chest','beast','trap','mushroom','skeleton'] },
+  clearing:{ n:'🌼 Поляна', d:'Солнечный свет, мягкая трава.', to:['forest','village'], ev:['flower','rest','butterfly','berry','scrap','merchant'] },
+  village:{ n:'🏘 Заброшенная деревня', d:'Пустые дома, скрипящие двери.', to:['ruins','clearing','river'], ev:['stranger','chest','ghost','scrap','mushroom','merchant'] },
+  river:{ n:'🌊 Река', d:'Быстрая холодная вода.', to:['village','forest'], ev:['swim','scrap','beast','fish','berry'] },
+  cave:{ n:'🕳 Тёмная пещера', d:'Здесь пахнет сыростью и мхом.', to:['forest','graveyard'], ev:['goblin','chest','trap','bugs2','ghost','mushroom'] },
+  graveyard:{ n:'⚰️ Кладбище', d:'Старые кресты, вой ветра.', to:['ruins','cave','battlefield'], ev:['ghost','skeleton','altar','fog','chest'] },
+  witch:{ n:'🧙 Хижина ведьмы', d:'Странные травы, запах зелий.', to:['swamp'], ev:['witch_meet','potion','altar','flower'] },
+  battlefield:{ n:'⚔️ Поле боя', d:'Обломки мечей, запах крови.', to:['graveyard','ruins'], ev:['skeleton','wound_traveler','chest','trap'] }
 };
 
 // ══════════════════════════════════════════
 //  СОСТОЯНИЕ
 // ══════════════════════════════════════════
 var S = {
-  hp: 100, maxHp: 100,
-  st: 100, maxSt: 100,
-  ar: 0,
-  scrap: 2, herbs: 0, potions: 1, food: 2, gold: 0,
-  loc: 'forest', weather: 'Нормальная', time: 'день',
-  muddy: 0,
-  set: 'Обычный', ward: {},
-  turn: 1, kills: 0, ecstasyCount: 0,
-  pending: 0, over: 0,
-  lastScene: '', mode: 'game',
-  chat: []
+  hp:100, maxHp:100, st:100, maxSt:100, ar:0,
+  scrap:2, herbs:0, potions:1, food:2, gold:0,
+  loc:'forest', weather:'Нормальная', time:'день',
+  muddy:0, set:'Обычный', ward:{},
+  turn:1, kills:0, ecstasyCount:0,
+  pending:0, over:0, lastScene:'', mode:'game', chat:[]
 };
-
-function bW(n) {
-  var w = {};
-  for (var k in SETS[n]) {
-    var v = SETS[n][k];
-    w[k] = { name: v[0], tight: v[1], covers: v[2], dur: 3 };
-  }
+function bW(n){
+  var w={};
+  for(var k in SETS[n]){ var v=SETS[n][k]; w[k]={name:v[0],tight:v[1],covers:v[2],dur:3}; }
   return w;
 }
 S.ward = bW(S.set);
-
-function aAr(n) { S.ar = cl(S.ar + n, 0, 100); }
-function aHp(n) { S.hp = cl(S.hp + n, 0, S.maxHp); }
-function aSt(n) { S.st = cl(S.st + n, 0, S.maxSt); }
-function wrn() {
-  var r = [];
-  for (var k in S.ward) if (S.ward[k].dur > 0) r.push(S.ward[k]);
-  return r;
-}
+function aAr(n){ S.ar=cl(S.ar+n,0,100); }
+function aHp(n){ S.hp=cl(S.hp+n,0,S.maxHp); }
+function aSt(n){ S.st=cl(S.st+n,0,S.maxSt); }
+function wrn(){ var r=[]; for(var k in S.ward) if(S.ward[k].dur>0) r.push(S.ward[k]); return r; }
 
 // ══════════════════════════════════════════
-//  ИИ
+//  🎨 SVG-ЛОНА
 // ══════════════════════════════════════════
-var KEY = '';
-try { KEY = localStorage.getItem('lk14') || ''; } catch(e) {}
+function renderAvatar(){
+  var skin = 'var(--skin)';
+  var hair = 'var(--hair)';
+  var cloth = 'var(--cloth)';
+  var cloth2 = 'var(--cloth2)';
+  var dark = 'rgba(0,0,0,.25)';
 
-function saveK(k) {
-  KEY = k.trim();
-  try { localStorage.setItem('lk14', KEY); } catch(e) {}
-}
+  // Румянец от возбуждения
+  var blush = 'transparent';
+  if(S.ar>=25) blush='rgba(230,90,140,.25)';
+  if(S.ar>=50) blush='rgba(230,90,140,.45)';
+  if(S.ar>=75) blush='rgba(230,90,140,.6)';
+  if(S.ar>=100) blush='rgba(230,90,140,.75)';
 
-var MODELS = [
-  'google/gemma-3-27b-it:free',
-  'meta-llama/llama-3.3-70b-instruct:free',
-  'qwen/qwen3-next-80b-a3b-instruct:free',
-  'openai/gpt-oss-120b:free',
-  'mistralai/mistral-small-3.1-24b-instruct:free'
-];
-var CUR = null;
-var FL = {};
+  // Цвет лица (розовее при возбуждении)
+  if(S.ar>=60) skin='#f4c8d8';
 
-function callModel(m, msgs) {
-  return fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer ' + KEY,
-      'Content-Type': 'application/json',
-      'HTTP-Referer': 'https://lona.local',
-      'X-Title': 'Lona'
-    },
-    body: JSON.stringify({ model: m, messages: msgs })
-  }).then(function(r) {
-    if (r.status === 200) {
-      return r.json().then(function(d) {
-        return { ok: true, text: d.choices[0].message.content.trim() };
-      });
+  // Поза
+  var kneeling = (S.pending || S.ar>=100);
+  var kneeY = kneeling ? 40 : 0;
+
+  // Выражение лица
+  var expr = 'calm';
+  if(S.ar>=100) expr='ecstasy';
+  else if(S.ar>=75) expr='max';
+  else if(S.ar>=50) expr='aroused';
+  else if(S.ar>=25) expr='shy';
+  if(S.hp<=30) expr='pain';
+
+  // Глаза
+  var eyesSvg='';
+  if(expr==='ecstasy'){
+    eyesSvg='<path d="M88 68 q5 4 10 0" stroke="#3a1a26" stroke-width="2" fill="none" stroke-linecap="round"/>'+
+            '<path d="M102 68 q5 4 10 0" stroke="#3a1a26" stroke-width="2" fill="none" stroke-linecap="round"/>';
+  } else if(expr==='max'){
+    eyesSvg='<ellipse cx="93" cy="68" rx="3" ry="2" fill="#3a1a26"/>'+
+            '<ellipse cx="107" cy="68" rx="3" ry="2" fill="#3a1a26"/>';
+  } else if(expr==='aroused'){
+    eyesSvg='<ellipse cx="93" cy="68" rx="2.5" ry="3.5" fill="#3a1a26"/>'+
+            '<ellipse cx="107" cy="68" rx="2.5" ry="3.5" fill="#3a1a26"/>'+
+            '<circle cx="93.5" cy="67" r=".8" fill="#fff"/>'+
+            '<circle cx="107.5" cy="67" r=".8" fill="#fff"/>';
+  } else if(expr==='pain'){
+    eyesSvg='<path d="M88 66 l6 4 M100 66 l6 4" stroke="#3a1a26" stroke-width="2" fill="none"/>'+
+            '<circle cx="93" cy="70" r="1.5" fill="#3a1a26"/>'+
+            '<circle cx="107" cy="70" r="1.5" fill="#3a1a26"/>';
+  } else if(expr==='shy'){
+    eyesSvg='<ellipse cx="93" cy="69" rx="2.5" ry="2.5" fill="#3a1a26"/>'+
+            '<ellipse cx="107" cy="69" rx="2.5" ry="2.5" fill="#3a1a26"/>';
+  } else {
+    eyesSvg='<circle cx="93" cy="68" r="2.5" fill="#3a1a26"/>'+
+            '<circle cx="107" cy="68" r="2.5" fill="#3a1a26"/>'+
+            '<circle cx="93.5" cy="67" r=".8" fill="#fff"/>'+
+            '<circle cx="107.5" cy="67" r=".8" fill="#fff"/>';
+  }
+
+  // Рот
+  var mouthSvg='';
+  if(expr==='ecstasy'){
+    mouthSvg='<ellipse cx="100" cy="80" rx="3" ry="4" fill="#5a1f32"/>';
+  } else if(expr==='max'){
+    mouthSvg='<ellipse cx="100" cy="80" rx="2.5" ry="3" fill="#5a1f32"/>';
+  } else if(expr==='aroused'){
+    mouthSvg='<ellipse cx="100" cy="80" rx="2" ry="2.5" fill="#5a1f32"/>';
+  } else if(expr==='shy'){
+    mouthSvg='<path d="M97 79 q3 2 6 0" stroke="#5a1f32" stroke-width="1.5" fill="none"/>';
+  } else if(expr==='pain'){
+    mouthSvg='<path d="M96 80 q4 -2 8 0" stroke="#5a1f32" stroke-width="1.5" fill="none"/>';
+  } else {
+    mouthSvg='<path d="M97 79 q3 1.5 6 0" stroke="#5a1f32" stroke-width="1.5" fill="none"/>';
+  }
+
+  // Одежда по сету
+  var clothSvg='';
+  var set = S.set;
+  if(set==='Купальник'){
+    clothSvg='<path d="M84 95 Q100 92 116 95 L118 108 Q100 105 82 108 Z" fill="'+cloth+'" opacity=".95"/>'+
+             '<rect x="86" y="128" width="28" height="16" rx="3" fill="'+cloth+'" opacity=".95"/>';
+  } else if(set==='Спортивный'){
+    clothSvg='<path d="M78 92 Q100 86 122 92 L124 132 Q100 132 76 132 Z" fill="'+cloth+'" opacity=".92"/>';
+  } else {
+    // Обычный/Уличный
+    var topColor = (set==='Уличный') ? cloth2 : cloth;
+    clothSvg='<path d="M84 92 Q100 86 116 92 L118 132 Q100 130 82 132 Z" fill="'+topColor+'" opacity=".92"/>'+
+             '<rect x="80" y="132" width="40" height="22" rx="4" fill="'+cloth2+'" opacity=".9"/>';
+  }
+
+  // Порванная одежда — рисуем "дырки"
+  var totalDmg = 0;
+  for(var k in S.ward){ if(S.ward[k].dur < 3) totalDmg += (3 - S.ward[k].dur); }
+  var tearsSvg='';
+  if(totalDmg >= 2){
+    tearsSvg += '<path d="M92 '+ (100+Math.random()*10) +' l4 6 l-2 3" stroke="'+skin+'" stroke-width="1.5" fill="none"/>';
+  }
+  if(totalDmg >= 4){
+    tearsSvg += '<path d="M110 '+(120+Math.random()*10)+' l-3 5 l4 2" stroke="'+skin+'" stroke-width="1.5" fill="none"/>';
+  }
+
+  // Грязь
+  var mudSvg='';
+  if(S.muddy){
+    mudSvg='<g opacity=".5">'+
+      '<ellipse cx="90" cy="120" rx="6" ry="4" fill="#3d4a2a"/>'+
+      '<ellipse cx="112" cy="140" rx="5" ry="3" fill="#3d4a2a"/>'+
+      '<ellipse cx="100" cy="150" rx="4" ry="2.5" fill="#3d4a2a"/>'+
+      '<ellipse cx="95" cy="75" rx="3" ry="2" fill="#3d4a2a"/>'+
+    '</g>';
+  }
+
+  // Сердечки при высоком возбуждении
+  var hearts='';
+  if(S.ar>=50){
+    var hCount = S.ar>=90 ? 4 : 2;
+    for(var i=0; i<hCount; i++){
+      var hx=60+Math.random()*80, hy=30+Math.random()*30;
+      hearts += '<path class="hb" transform="translate('+hx+','+hy+') scale(.5)" d="M0 5 C-2 -1 -8 -1 -8 -5 C-8 -9 -4 -10 0 -7 C4 -10 8 -9 8 -5 C8 -1 2 -1 0 5 Z" fill="#ff5a8a" opacity=".8" style="animation-delay:'+(i*.2)+'s"/>';
     }
-    return { ok: false, status: r.status };
+  }
+
+  // Пот при жаре
+  var sweat='';
+  if(S.weather==='Жара' && S.ar>=40){
+    sweat = '<ellipse cx="115" cy="60" rx="1" ry="2" fill="#8ec8e5"/>'+
+            '<ellipse cx="120" cy="70" rx="1" ry="2" fill="#8ec8e5"/>';
+  }
+
+  // Ветер/дрожание при экстазе
+  var wrapClass = (expr==='ecstasy'||expr==='max') ? 'shk' : 'fc-soft';
+
+  var svg = '';
+  svg += '<defs>';
+  svg += '<radialGradient id="glow" cx="50%" cy="50%" r="60%">';
+  svg += '<stop offset="0%" stop-color="var(--ac)" stop-opacity="'+(S.ar/200)+'"/>';
+  svg += '<stop offset="100%" stop-color="var(--ac)" stop-opacity="0"/>';
+  svg += '</radialGradient>';
+  svg += '</defs>';
+
+  // Фоновое свечение
+  svg += '<circle cx="100" cy="100" r="90" fill="url(#glow)"/>';
+
+  // Группа с анимацией
+  svg += '<g class="'+wrapClass+'" transform="translate(0,'+kneeY+')">';
+
+  // Тень под ногами
+  svg += '<ellipse cx="100" cy="182" rx="30" ry="4" fill="rgba(0,0,0,.35)"/>';
+
+  // Ноги
+  if(kneeling){
+    svg += '<path d="M90 150 Q88 165 85 178" stroke="'+skin+'" stroke-width="9" fill="none" stroke-linecap="round"/>';
+    svg += '<path d="M110 150 Q112 165 115 178" stroke="'+skin+'" stroke-width="9" fill="none" stroke-linecap="round"/>';
+  } else {
+    svg += '<line x1="92" y1="148" x2="88" y2="180" stroke="'+skin+'" stroke-width="9" stroke-linecap="round"/>';
+    svg += '<line x1="108" y1="148" x2="112" y2="180" stroke="'+skin+'" stroke-width="9" stroke-linecap="round"/>';
+  }
+
+  // Тело
+  svg += '<path d="M82 90 Q100 86 118 90 L114 152 Q100 156 86 152 Z" fill="'+skin+'"/>';
+
+  // Одежда
+  svg += clothSvg;
+  svg += tearsSvg;
+
+  // Руки
+  svg += '<path d="M82 95 Q70 120 72 145" stroke="'+skin+'" stroke-width="8" fill="none" stroke-linecap="round"/>';
+  svg += '<path d="M118 95 Q130 120 128 145" stroke="'+skin+'" stroke-width="8" fill="none" stroke-linecap="round"/>';
+
+  // Шея
+  svg += '<rect x="94" y="80" width="12" height="12" fill="'+skin+'"/>';
+
+  // Голова
+  svg += '<circle cx="100" cy="65" r="24" fill="'+skin+'"/>';
+
+  // Волосы (задние)
+  svg += '<path d="M76 65 Q72 40 100 36 Q128 40 124 65 Q128 55 122 48 Q110 40 100 40 Q90 40 78 48 Q72 55 76 65 Z" fill="'+hair+'"/>';
+
+  // Волосы (передние)
+  svg += '<path d="M76 65 Q76 45 100 42 Q124 45 124 65 L124 78 Q124 60 100 56 Q76 60 76 78 Z" fill="'+hair+'"/>';
+  // Пряди по бокам
+  svg += '<path d="M76 65 Q72 90 74 115" stroke="'+hair+'" stroke-width="8" fill="none" stroke-linecap="round"/>';
+  svg += '<path d="M124 65 Q128 90 126 115" stroke="'+hair+'" stroke-width="8" fill="none" stroke-linecap="round"/>';
+
+  // Румянец
+  if(blush!=='transparent'){
+    svg += '<ellipse cx="86" cy="72" rx="5" ry="3" fill="'+blush+'"/>';
+    svg += '<ellipse cx="114" cy="72" rx="5" ry="3" fill="'+blush+'"/>';
+  }
+
+  // Лицо
+  svg += eyesSvg;
+  svg += mouthSvg;
+
+  // Грязь
+  svg += mudSvg;
+
+  // Пот
+  svg += sweat;
+
+  // Сердечки
+  svg += hearts;
+
+  svg += '</g>'; // конец анимированной группы
+
+  $('svg').innerHTML = svg;
+}
+
+// ══════════════════════════════════════════
+//  ИИ (компактно)
+// ══════════════════════════════════════════
+var KEY=''; try{ KEY=localStorage.getItem('lk15')||''; }catch(e){}
+function saveK(k){ KEY=k.trim(); try{localStorage.setItem('lk15',KEY);}catch(e){} }
+var MODELS=['google/gemma-3-27b-it:free','meta-llama/llama-3.3-70b-instruct:free','qwen/qwen3-next-80b-a3b-instruct:free','openai/gpt-oss-120b:free','mistralai/mistral-small-3.1-24b-instruct:free'];
+var CUR=null, FL={};
+
+function callModel(m,msgs){
+  return fetch('https://openrouter.ai/api/v1/chat/completions',{
+    method:'POST',
+    headers:{'Authorization':'Bearer '+KEY,'Content-Type':'application/json','HTTP-Referer':'https://lona.local','X-Title':'Lona'},
+    body:JSON.stringify({model:m,messages:msgs})
+  }).then(function(r){
+    if(r.status===200){ return r.json().then(function(d){ return {ok:true,text:d.choices[0].message.content.trim()}; }); }
+    return {ok:false,status:r.status};
   });
 }
-
-function aiCall(msgs) {
-  var order = [];
-  if (CUR) order.push(CUR);
-  for (var i = 0; i < MODELS.length; i++) {
-    if (MODELS[i] !== CUR) order.push(MODELS[i]);
-  }
-  var lastErr = '';
-  var idx = 0;
-
-  function tryNext() {
-    if (idx >= order.length) return Promise.resolve('[ИИ недоступен. ' + lastErr + ']');
-    var m = order[idx++];
-    FL[m] = FL[m] || 0;
-    if (FL[m] >= 3 && m !== CUR) return tryNext();
-    return callModel(m, msgs).then(function(r) {
-      if (r.ok) { CUR = m; FL[m] = 0; return r.text; }
-      if (r.status === 401 || r.status === 402 || r.status === 403 || r.status === 404) FL[m] = 99;
-      else FL[m]++;
-      lastErr = m.slice(0, 20) + ':' + r.status;
-      return tryNext();
+function aiCall(msgs){
+  var ord=[]; if(CUR) ord.push(CUR);
+  for(var i=0;i<MODELS.length;i++) if(MODELS[i]!==CUR) ord.push(MODELS[i]);
+  var le='', idx=0;
+  function next(){
+    if(idx>=ord.length) return Promise.resolve('[ИИ недоступен. '+le+']');
+    var m=ord[idx++]; FL[m]=FL[m]||0;
+    if(FL[m]>=3 && m!==CUR) return next();
+    return callModel(m,msgs).then(function(r){
+      if(r.ok){ CUR=m; FL[m]=0; return r.text; }
+      if([401,402,403,404].indexOf(r.status)!==-1) FL[m]=99; else FL[m]++;
+      le=m.slice(0,20)+':'+r.status;
+      return next();
     });
   }
-  return tryNext();
+  return next();
 }
-
-function stateTxt() {
-  var w = [];
-  var slots = ['outer','top','bra','bottom','panties','swim_top','swim_bottom'];
-  for (var i = 0; i < slots.length; i++) {
-    var sl = slots[i];
-    var it = S.ward[sl];
-    if (!it) continue;
-    w.push(SL[sl] + '=' + it.name + '(' + ['рвань','порвано','надорвано','целая'][it.dur] + ')');
+function stateTxt(){
+  var w=[], slots=['outer','top','bra','bottom','panties','swim_top','swim_bottom'];
+  for(var i=0;i<slots.length;i++){
+    var sl=slots[i], it=S.ward[sl]; if(!it) continue;
+    w.push(SL[sl]+'='+it.name+'('+['рвань','порвано','надорвано','целая'][it.dur]+')');
   }
-  return 'HP ' + S.hp + '/' + S.maxHp +
-    ', ст ' + S.st + '/' + S.maxSt +
-    ', возб ' + S.ar + '%' +
-    ', лок ' + LOC[S.loc].n +
-    ', погода ' + S.weather +
-    ', ' + S.time +
-    ', ' + (S.muddy ? 'грязь' : 'чисто') +
-    ', лоск ' + S.scrap + ' трав ' + S.herbs + ' зел ' + S.potions + ' еды ' + S.food + ' зол ' + S.gold +
-    ', ' + (w.join(', ') || 'без одежды') +
-    ', ход ' + S.turn;
+  return 'HP '+S.hp+'/'+S.maxHp+', ст '+S.st+'/'+S.maxSt+', возб '+S.ar+'%, лок '+LOC[S.loc].n+
+    ', погода '+S.weather+', '+S.time+', '+(S.muddy?'грязь':'чисто')+
+    ', лоск '+S.scrap+' трав '+S.herbs+' зел '+S.potions+' еды '+S.food+' зол '+S.gold+
+    ', '+(w.join(', ')||'без одежды')+', ход '+S.turn;
 }
-
-function askAI(msg, mode, useState) {
-  if (!KEY) return Promise.resolve('[Ключ не введён.]');
-  if (useState === undefined) useState = true;
-  if (!mode) mode = 'game';
+function askAI(msg,mode,useSt){
+  if(!KEY) return Promise.resolve('[Ключ не введён.]');
+  if(useSt===undefined) useSt=true;
+  if(!mode) mode='game';
   var sys;
-  if (mode === 'code') {
-    sys = 'Ты опытный программист. Пиши рабочий код с комментариями.';
-  } else if (mode === 'lona') {
-    sys = 'Ты — Лона, 19-летняя застенчивая девушка. Отвечай ОТ ПЕРВОГО ЛИЦА, смущённо, живо, коротко (1-3 предложения).';
-  } else {
-    sys = 'Ты — Гейм-Мастер тёмного фэнтези RPG. Пиши атмосферно, коротко (2-4 предложения).';
+  if(mode==='code') sys='Ты опытный программист. Пиши рабочий код с комментариями.';
+  else if(mode==='lona') sys='Ты — Лона, 19-летняя застенчивая девушка. Отвечай ОТ ПЕРВОГО ЛИЦА, смущённо, живо, коротко (1-3 предложения).';
+  else sys='Ты — Гейм-Мастер тёмного фэнтези RPG. Пиши атмосферно, коротко (2-4 предложения).';
+  var msgs=[{role:'system',content:sys}];
+  if(useSt) msgs.push({role:'system',content:stateTxt()});
+  if(mode==='lona' && S.chat.length){
+    var tail=S.chat.slice(-8);
+    for(var i=0;i<tail.length;i++) msgs.push(tail[i]);
   }
-  var msgs = [{ role: 'system', content: sys }];
-  if (useState) msgs.push({ role: 'system', content: stateTxt() });
-  if (mode === 'lona' && S.chat.length) {
-    var tail = S.chat.slice(-8);
-    for (var i = 0; i < tail.length; i++) msgs.push(tail[i]);
-  }
-  msgs.push({ role: 'user', content: msg });
+  msgs.push({role:'user',content:msg});
   return aiCall(msgs);
 }
 
 // ══════════════════════════════════════════
 //  РЕНДЕР
 // ══════════════════════════════════════════
-function face() {
-  if (S.ar >= 100) return '💗';
-  if (S.ar >= 75) return '🥵';
-  if (S.ar >= 50) return '😳';
-  if (S.ar >= 25) return '😊';
-  if (S.hp <= 30) return '🤕';
-  if (S.muddy) return '🫠';
-  return '🙂';
-}
-function moodTxt() {
-  if (S.ar >= 100) return 'На грани';
-  if (S.ar >= 75) return 'Тяжело дышит';
-  if (S.ar >= 50) return 'Смущена';
-  if (S.ar >= 25) return 'Застенчива';
-  if (S.hp <= 30) return 'Ранена';
-  if (S.muddy) return 'Грязная';
+function moodTxt(){
+  if(S.ar>=100) return 'На грани';
+  if(S.ar>=75) return 'Тяжело дышит';
+  if(S.ar>=50) return 'Смущена';
+  if(S.ar>=25) return 'Застенчива';
+  if(S.hp<=30) return 'Ранена';
+  if(S.muddy) return 'Грязная';
   return 'Спокойна';
 }
-function wIco() {
-  if (S.weather === 'Холод') return '❄️';
-  if (S.weather === 'Жара') return '🔥';
-  if (S.weather === 'Дождь') return '🌧';
+function wIco(){
+  if(S.weather==='Холод') return '❄️';
+  if(S.weather==='Жара') return '🔥';
+  if(S.weather==='Дождь') return '🌧';
   return '🌤';
 }
 
-function render() {
-  if (S.ar >= 90) document.body.dataset.ar = 'max';
-  else if (S.ar >= 50) document.body.dataset.ar = 'high';
-  else document.body.dataset.ar = 'low';
+function render(){
+  if(S.ar>=90) document.body.dataset.ar='max';
+  else if(S.ar>=50) document.body.dataset.ar='high';
+  else document.body.dataset.ar='low';
 
-  $('fc').textContent = face();
+  renderAvatar();
   $('md').textContent = moodTxt();
   $('li').textContent = LOC[S.loc].n;
   $('wi').textContent = wIco();
 
-  var hpPct = S.hp / S.maxHp * 100;
-  var stPct = S.st / S.maxSt * 100;
-
-  var html = '';
-  html += '<div class="rw"><span>🕐 ' + S.time + '</span><b>🌤 ' + S.weather + '</b></div>';
-  html += '<div class="rw"><span>❤️ HP</span><b>' + S.hp + '/' + S.maxHp + '</b></div>';
-  html += '<div class="br hp"><div style="width:' + hpPct + '%"></div></div>';
-  html += '<div class="rw"><span>⚡ Выносливость</span><b>' + S.st + '/' + S.maxSt + '</b></div>';
-  html += '<div class="br st"><div style="width:' + stPct + '%"></div></div>';
-  html += '<div class="rw"><span>💗 Возбуждение</span><b>' + S.ar + '%</b></div>';
-  html += '<div class="br ar"><div style="width:' + S.ar + '%"></div></div>';
-  html += '<div class="rw sm dm"><span>🌿 ' + (S.muddy ? 'грязь' : 'чисто') + ' · 🎬 ' + S.turn + ' · ⚔️ ' + S.kills + '</span>';
-  html += '<span>🔑' + (KEY ? '✅' : '❌') + ' 🔊' + (snd ? 'вкл' : 'выкл') + '</span></div>';
+  var hpPct = S.hp/S.maxHp*100;
+  var stPct = S.st/S.maxSt*100;
+  var html='';
+  html += '<div class="rw"><span>🕐 '+S.time+'</span><b>🌤 '+S.weather+'</b></div>';
+  html += '<div class="rw"><span>❤️ HP</span><b>'+S.hp+'/'+S.maxHp+'</b></div>';
+  html += '<div class="br hp"><div style="width:'+hpPct+'%"></div></div>';
+  html += '<div class="rw"><span>⚡ Выносливость</span><b>'+S.st+'/'+S.maxSt+'</b></div>';
+  html += '<div class="br st"><div style="width:'+stPct+'%"></div></div>';
+  html += '<div class="rw"><span>💗 Возбуждение</span><b>'+S.ar+'%</b></div>';
+  html += '<div class="br ar"><div style="width:'+S.ar+'%"></div></div>';
+  html += '<div class="rw sm dm"><span>🌿 '+(S.muddy?'грязь':'чисто')+' · 🎬 '+S.turn+' · ⚔️ '+S.kills+'</span>';
+  html += '<span>🔑'+(KEY?'✅':'❌')+' 🔊'+(snd?'вкл':'выкл')+'</span></div>';
   $('stats').innerHTML = html;
 
-  var w = '<div class="dm">👗 ' + S.set + '</div>';
-  var slots = ['outer','top','bra','bottom','panties','swim_top','swim_bottom'];
-  for (var i = 0; i < slots.length; i++) {
-    var sl = slots[i];
-    var it = S.ward[sl];
-    if (!it) continue;
-    w += '<div class="rw"><span>' + SL[sl] + '</span><b>' + it.name + ' ' + DUR[it.dur] + '</b></div>';
+  var w='<div class="dm">👗 '+S.set+'</div>';
+  var slots=['outer','top','bra','bottom','panties','swim_top','swim_bottom'];
+  for(var i=0;i<slots.length;i++){
+    var sl=slots[i], it=S.ward[sl]; if(!it) continue;
+    w += '<div class="rw"><span>'+SL[sl]+'</span><b>'+it.name+' '+DUR[it.dur]+'</b></div>';
   }
-  w += '<div class="rw sm dm"><span>🎒 ' + S.scrap + ' · 🌿 ' + S.herbs + ' · 🧪 ' + S.potions + ' · 🍖 ' + S.food + ' · 💰 ' + S.gold + '</span></div>';
+  w += '<div class="rw sm dm"><span>🎒 '+S.scrap+' · 🌿 '+S.herbs+' · 🧪 '+S.potions+' · 🍖 '+S.food+' · 💰 '+S.gold+'</span></div>';
   $('wrd').innerHTML = w;
-
   $('ia').innerHTML = '';
   rBtns();
 }
 
-// ══════════════════════════════════════════
-//  КНОПКИ
-// ══════════════════════════════════════════
-function mkBtn(icon, label, cls, fn) {
-  var b = document.createElement('button');
-  if (cls) b.className = cls;
-  b.innerHTML = '<span class="ic">' + icon + '</span>' + label;
-  b.onclick = fn;
+function mkBtn(icon,label,cls,fn){
+  var b=document.createElement('button');
+  if(cls) b.className=cls;
+  b.innerHTML='<span class="ic">'+icon+'</span>'+label;
+  b.onclick=fn;
   return b;
 }
 
-function rBtns() {
-  var d = $('bt');
-  d.innerHTML = '';
+function rBtns(){
+  var d=$('bt'); d.innerHTML='';
+  if(S.mode==='ai'){ rAI(d); return; }
+  if(S.mode==='cheat'){ rCht(d); return; }
+  if(S.mode==='scenes'){ rScn(d); return; }
+  if(S.mode==='chat'){ rChat(d); return; }
+  if(S.mode==='key'){ rKey(d); return; }
+  if(S.mode==='travel'){ rTrav(d); return; }
+  if(S.mode==='inv'){ rInv(d); return; }
+  if(S.mode==='settings'){ rSet(d); return; }
 
-  if (S.mode === 'ai') { rAI(d); return; }
-  if (S.mode === 'cheat') { rCht(d); return; }
-  if (S.mode === 'scenes') { rScn(d); return; }
-  if (S.mode === 'chat') { rChat(d); return; }
-  if (S.mode === 'key') { rKey(d); return; }
-  if (S.mode === 'travel') { rTrav(d); return; }
-  if (S.mode === 'inv') { rInv(d); return; }
-  if (S.mode === 'settings') { rSet(d); return; }
-
-  if (S.over) {
-    d.appendChild(mkBtn('🔄', 'Начать заново', 'dg-btn', function() { location.reload(); }));
+  if(S.over){
+    d.appendChild(mkBtn('🔄','Начать заново','dg-btn',function(){ location.reload(); }));
     return;
   }
 
-  d.appendChild(mkBtn('🔍', 'Осмотреться', 'sc-btn', function() { act('explore'); }));
-  d.appendChild(mkBtn('🧭', 'Идти в другую локацию', 'gl-btn', function() { act('travel'); }));
-  if (S.st >= 10) d.appendChild(mkBtn('⚔️', 'Охотиться', 'sc-btn', function() { act('hunt'); }));
-  if (S.ar >= 25) d.appendChild(mkBtn('🥵', 'Уединиться', '', function() { act('relieve'); }));
-  if (wrn().length) d.appendChild(mkBtn('👕', 'Сорвать верх', '', function() { act('strip'); }));
-  if (Object.keys(S.ward).some(function(k) { return S.ward[k].dur > 0 && S.ward[k].dur < 3; }) && S.scrap >= 2) {
-    d.appendChild(mkBtn('🛠️', 'Заштопать', '', function() { act('stitch'); }));
+  d.appendChild(mkBtn('🔍','Осмотреться','sc-btn',function(){ act('explore'); }));
+  d.appendChild(mkBtn('🧭','Идти в другую локацию','gl-btn',function(){ act('travel'); }));
+  if(S.st>=10) d.appendChild(mkBtn('⚔️','Охотиться','sc-btn',function(){ act('hunt'); }));
+  if(S.ar>=25) d.appendChild(mkBtn('🥵','Уединиться','',function(){ act('relieve'); }));
+  if(wrn().length) d.appendChild(mkBtn('👕','Сорвать верх','',function(){ act('strip'); }));
+  if(Object.keys(S.ward).some(function(k){ return S.ward[k].dur>0 && S.ward[k].dur<3; }) && S.scrap>=2){
+    d.appendChild(mkBtn('🛠️','Заштопать','',function(){ act('stitch'); }));
   }
-  d.appendChild(mkBtn('👗', 'Переодеться', '', function() { act('change'); }));
-  d.appendChild(mkBtn('💤', 'Отдохнуть', '', function() { act('rest'); }));
-  d.appendChild(mkBtn('🎒', 'Инвентарь', '', function() { act('inv'); }));
-  d.appendChild(mkBtn('🤖', 'ИИ-панель', 'ai-btn', function() { act('ai'); }));
+  d.appendChild(mkBtn('👗','Переодеться','',function(){ act('change'); }));
+  d.appendChild(mkBtn('💤','Отдохнуть','',function(){ act('rest'); }));
+  d.appendChild(mkBtn('🎒','Инвентарь','',function(){ act('inv'); }));
+  d.appendChild(mkBtn('🤖','ИИ-панель','ai-btn',function(){ act('ai'); }));
 }
 
 // ══════════════════════════════════════════
-//  ИГРОВЫЕ ДЕЙСТВИЯ
+//  ДЕЙСТВИЯ
 // ══════════════════════════════════════════
-function act(k) {
-  if (S.over) return;
+function act(k){
+  if(S.over) return;
   clLg();
 
-  if (S.pending) {
-    scEc();
-    S.pending = 0;
-    S.turn++;
-    endT();
-    return;
-  }
+  if(S.pending){ scEc(); S.pending=0; S.turn++; endT(); return; }
+  if(k==='ai'){ S.mode='ai'; clLg(); render(); return; }
+  if(k==='travel'){ S.mode='travel'; clLg(); render(); return; }
+  if(k==='inv'){ S.mode='inv'; clLg(); render(); return; }
 
-  if (k === 'ai') { S.mode = 'ai'; clLg(); render(); return; }
-  if (k === 'travel') { S.mode = 'travel'; clLg(); render(); return; }
-  if (k === 'inv') { S.mode = 'inv'; clLg(); render(); return; }
-
-  if (k === 'explore') doExp();
-  else if (k === 'hunt') doHunt();
-  else if (k === 'relieve') doRel();
-  else if (k === 'strip') doStr();
-  else if (k === 'stitch') { doSti(); return; }
-  else if (k === 'change') { doChg(); return; }
-  else if (k === 'rest') doRst();
-
+  if(k==='explore') doExp();
+  else if(k==='hunt') doHunt();
+  else if(k==='relieve') doRel();
+  else if(k==='strip') doStr();
+  else if(k==='stitch'){ doSti(); return; }
+  else if(k==='change'){ doChg(); return; }
+  else if(k==='rest') doRst();
   endT();
 }
 
-function doExp() {
-  var l = LOC[S.loc];
-  var ev = pk(l.ev);
-  lg('🔍 Лона осматривается в ' + l.n + '...');
-  lg(l.d, 'hn');
-  if (!S.lastScene) S.lastScene = 'Лона исследует ' + l.n + '.';
-  lg('🎲 Внимание: ' + d10(), 'hn');
+function doExp(){
+  var l=LOC[S.loc], ev=pk(l.ev);
+  lg('🔍 Лона осматривается в '+l.n+'...');
+  lg(l.d,'hn');
+  if(!S.lastScene) S.lastScene='Лона исследует '+l.n+'.';
+  lg('🎲 Внимание: '+d10(),'hn');
 
-  if (ev === 'beast') { scBst(); return; }
-  if (ev === 'bugs') { scBgs(false); return; }
-  if (ev === 'bugs2') { scBgs(true); return; }
+  if(ev==='beast'){ scBst(); return; }
+  if(ev==='bugs'){ scBgs(false); return; }
+  if(ev==='bugs2'){ scBgs(true); return; }
+  if(ev==='skeleton'){ scSkel(); return; }
+  if(ev==='goblin'){ scGoblin(); return; }
 
-  if (ev === 'scrap') {
-    var n = rnd(1, 3);
-    S.scrap += n;
-    lg('📦 +' + n + ' лоскутов.', 'ok');
-    fnd(); return;
-  }
-  if (ev === 'berry') { S.food++; aHp(5); lg('🍇 +1 еда, +5 HP.', 'ok'); fnd(); return; }
-  if (ev === 'flower') { S.herbs++; lg('🌼 +1 трава.', 'ok'); fnd(); return; }
-  if (ev === 'mushroom') {
-    if (ch(0.6)) { S.herbs++; lg('🍄 Съедобный.', 'ok'); fnd(); }
-    else { aHp(-6); lg('🍄 Ядовитый! -6 HP.', 'bad'); fai(); }
+  if(ev==='scrap'){ var n=rnd(1,3); S.scrap+=n; lg('📦 +'+n+' лоскутов.','ok'); fnd(); return; }
+  if(ev==='berry'){ S.food++; aHp(5); lg('🍇 +1 еда, +5 HP.','ok'); fnd(); return; }
+  if(ev==='flower'){ S.herbs++; lg('🌼 +1 трава.','ok'); fnd(); return; }
+  if(ev==='mushroom'){
+    if(ch(0.6)){ S.herbs++; lg('🍄 Съедобный.','ok'); fnd(); }
+    else{ aHp(-6); lg('🍄 Ядовитый! -6 HP.','bad'); fai(); }
     return;
   }
-  if (ev === 'chest') {
-    var g = rnd(3, 20);
-    S.gold += g;
-    lg('💰 +' + g + ' золота.', 'cr');
-    fnd(); return;
+  if(ev==='chest'){ var g=rnd(3,20); S.gold+=g; lg('💰 +'+g+' золота.','cr'); fnd(); return; }
+  if(ev==='potion'){ S.potions++; lg('🧪 Ведьма дала зелье.','ok'); fnd(); return; }
+  if(ev==='witch_meet'){
+    lg('🧙 Ведьма приветствует Лону.','hn');
+    if(ch(0.5)){ S.potions++; lg('Она даёт зелье.','ok'); }
+    else{ S.herbs+=2; lg('Она даёт травы.','ok'); }
+    S.lastScene='Лона встретила ведьму.'; fnd(); return;
   }
-  if (ev === 'stranger') {
-    lg('👤 Незнакомец...', 'hn');
-    if (ch(0.5)) { S.gold += rnd(1, 5); lg('Бросает монету.', 'ok'); fnd(); }
-    else { aAr(20); lg('Хватает Лону — она вырывается!', 'bad'); moan('light', 'sensitive'); }
-    S.lastScene = 'Незнакомец.';
+  if(ev==='altar'){
+    lg('🔮 Древний алтарь...','hn');
+    if(ch(0.4)){ aAr(15); S.gold+=rnd(5,15); lg('Что-то шепчет. +золото, +возбуждение.','cr'); }
+    else{ aHp(-5); lg('Проклятие! -5 HP.','bad'); fai(); }
+    S.lastScene='Лона у алтаря.'; return;
+  }
+  if(ev==='merchant'){
+    lg('🛒 Странствующий торговец.','hn');
+    if(S.gold>=10){
+      if(ch(0.5)){ S.potions++; S.gold-=10; lg('Купила зелье (-10 зол).','ok'); }
+      else{ S.food+=3; S.gold-=10; lg('Купила еду (-10 зол).','ok'); }
+    } else { lg('Не хватает золота.','hn'); }
+    S.lastScene='Торговец.'; return;
+  }
+  if(ev==='wound_traveler'){
+    lg('🩸 Раненый путник.','hn');
+    if(S.potions>0){
+      lg('Лона даёт ему зелье.','hn');
+      S.potions--; S.gold+=rnd(5,15);
+      lg('Он благодарит золотом.','ok'); fnd();
+    } else { aAr(10); lg('Он умирает на руках Лоны.','bad'); }
+    S.lastScene='Раненый путник.'; return;
+  }
+  if(ev==='stranger'){
+    lg('👤 Незнакомец...','hn');
+    if(ch(0.5)){ S.gold+=rnd(1,5); lg('Бросает монету.','ok'); fnd(); }
+    else{ aAr(20); lg('Хватает Лону — она вырывается!','bad'); moan('light','sensitive'); }
+    S.lastScene='Незнакомец.'; return;
+  }
+  if(ev==='ghost'){ aAr(15); lg('👻 Призрак!','bad'); fai(); return; }
+  if(ev==='trap'){ var dm=rnd(5,15); aHp(-dm); lg('⚠️ Ловушка! -'+dm+' HP.','bad'); hit(); return; }
+  if(ev==='sink'){ S.muddy=1; aSt(-10); lg('🌿 Трясина!','bad'); fai(); return; }
+  if(ev==='fog'){ lg('🌫 Туман...','hn'); S.lastScene='Лона идёт сквозь туман.'; return; }
+  if(ev==='wisp'){ aAr(10); S.herbs++; lg('✨ Огонёк и трава.','ok'); fnd(); return; }
+  if(ev==='rest'){ aSt(15); lg('🌼 +15 ст.','ok'); return; }
+  if(ev==='butterfly'){ aAr(5); lg('🦋 Бабочка.','ok'); return; }
+  if(ev==='swim'){
+    if(ch(0.7)){ S.muddy=0; aSt(-5); lg('🌊 Грязь смыта.','ok'); }
+    else{ aHp(-8); lg('🌊 -8 HP.','bad'); fai(); }
     return;
   }
-  if (ev === 'ghstost') { aAr(15); lg('👻 Призрак!', 'bad'); fai(); return; }
-  if (ev === 'trap') {
-    var dm = rnd(5, 15);
-    aHp(-dm);
-    lg('⚠️ Ловушка! -' + dm + ' HP.', 'bad');
-    hit(); return;
-  }
-  if (ev === 'sink') { S.muddy = 1; aSt(-10); lg('🌿 Трясина!', 'bad'); fai(); return; }
-  if (ev === 'fog') { lg('🌫 Туман...', 'hn'); return; }
-  if (ev === 'wisp') { aAr(10); S.herbs++; lg('✨ Огонёк и трава.', 'ok'); fnd(); return; }
-  if (ev === 'rest') { aSt(15); lg('🌼 +15 ст.', 'ok'); return; }
-  if (ev === 'butterfly') { aAr(5); lg('🦋 Бабочка.', 'ok'); return; }
-  if (ev === 'swim') {
-    if (ch(0.7)) { S.muddy = 0; aSt(-5); lg('🌊 Грязь смыта.', 'ok'); }
-    else { aHp(-8); lg('🌊 -8 HP.', 'bad'); fai(); }
-    return;
-  }
-  if (ev === 'fish') { S.food++; lg('🐟 +1 еда.', 'ok'); fnd(); return; }
+  if(ev==='fish'){ S.food++; lg('🐟 +1 еда.','ok'); fnd(); return; }
 }
 
-function scB() {
-  var beasts = [
-    ['🐺','Волк',1], ['🐗','Кабан',2], ['🐍','Змея',1],
-    ['🦊','Лис',1], ['🐻','Медведь',3]
-  ];
-  var b = pk(beasts);
-  lg(b[0] + ' ' + b[1] + ' вылетает!', 'bad');
-  hit();
-  var o = out(d10());
-  lg('🎲 ' + o);
-
-  if (o === 'cr') {
-    S.scrap += 2; S.kills++;
-    lg('✨ КРИТ! +2 лоскута.', 'cr');
-    aAr(8); fnd();
-  } else if (o === 'ok') {
-    lg('🟢 Увернулась.', 'ok');
-    aAr(8);
-  } else if (o === 'cf') {
-    var t = pk(wrn());
-    if (t) { t.dur = 0; lg('💥 КРИТПРОВАЛ! ' + t.name + ' уничтожена!', 'bad'); }
-    aHp(-b[2] * 2);
-    aAr(40);
-    S.muddy = 1;
-    rip('max');
-    setTimeout(function() { moan('max', 'torn'); }, 200);
+function scBst(){
+  var b=pk([['🐺','Волк',1],['🐗','Кабан',2],['🐍','Змея',1],['🦊','Лис',1],['🐻','Медведь',3],['🦅','Грифон',3]]);
+  lg(b[0]+' '+b[1]+' вылетает!','bad'); hit();
+  var o=out(d10()); lg('🎲 '+o);
+  if(o==='cr'){ S.scrap+=2; S.kills++; lg('✨ КРИТ! +2 лоскута.','cr'); aAr(8); fnd(); }
+  else if(o==='ok'){ lg('🟢 Увернулась.','ok'); aAr(8); }
+  else if(o==='cf'){
+    var t=pk(wrn()); if(t){ t.dur=0; lg('💥 КРИТПРОВАЛ! '+t.name+' уничтожена!','bad'); }
+    aHp(-b[2]*2); aAr(40); S.muddy=1;
+    rip('max'); setTimeout(function(){ moan('max','torn'); },200);
   } else {
-    var ts = wrn().sort(function() { return Math.random() - 0.5; }).slice(0, 2);
-    for (var i = 0; i < ts.length; i++) {
-      ts[i].dur = Math.max(0, ts[i].dur - 1);
-      lg('🔴 ' + b[1] + ' рвёт ' + ts[i].name + '.', 'bad');
-    }
-    aHp(-b[2]);
-    aAr(30);
-    S.muddy = 1;
-    rip('heavy');
-    setTimeout(function() { moan('heavy', 'beast'); }, 200);
+    var ts=wrn().sort(function(){return Math.random()-.5;}).slice(0,2);
+    for(var i=0;i<ts.length;i++){ ts[i].dur=Math.max(0,ts[i].dur-1); lg('🔴 '+b[1]+' рвёт '+ts[i].name+'.','bad'); }
+    aHp(-b[2]); aAr(30); S.muddy=1;
+    rip('heavy'); setTimeout(function(){ moan('heavy','beast'); },200);
   }
-  S.lastScene = b[1] + ' напал.';
+  S.lastScene=b[1]+' напал на Лону.';
 }
 
-function scBgs(hv) {
-  var bugs;
-  if (hv) bugs = [['🪱','черви'],['🕷️','пауки'],['🐛','личинки']];
-  else bugs = [['🐝','осы'],['🦟','комары'],['🕸️','паучки']];
-  var b = pk(bugs);
-  lg(b[0] + ' ' + b[1] + ' выползают!', 'bad');
-  var o = out(d10());
-  lg('🎲 ' + o);
-
-  if (o === 'cr') { S.scrap += 2; lg('✨ КРИТ!', 'cr'); aAr(3); fnd(); }
-  else if (o === 'ok') { lg('🟢 Отбилась.', 'ok'); aAr(10); }
-  else {
-    var zone = ch(0.5) ? 'pussy' : 'butt';
-    var tg = zone === 'pussy' ? '[киска]' : '[попка]';
-    var shields = wrn().filter(function(i) {
-      return i.covers.indexOf(zone) !== -1 && i.tight && i.dur > 1;
-    });
-    if (shields.length) {
-      var s1 = pk(shields);
-      s1.dur--;
-      if (ch(0.3)) {
-        lg(s('⚠️ ' + s1.name + ' прогрызен — к ' + tg + '!'), 'bad');
-        aAr(45); rip('light');
-        setTimeout(function() { moan('heavy', 'bugs'); }, 300);
-      } else {
-        lg(s('🟢 ' + s1.name + ' держит.'), 'ok');
-        aAr(15); moan('light', 'sensitive');
-      }
-    } else {
-      lg(s('🔴 Ничто не защищает ' + tg + '!'), 'bad');
-      aAr(50); moan('max', 'bugs');
-    }
-    if (hv) aHp(-5);
-    S.muddy = 1;
+function scBgs(hv){
+  var bugs = hv ? [['🪱','черви'],['🕷️','пауки'],['🐛','личинки']] : [['🐝','осы'],['🦟','комары'],['🕸️','паучки']];
+  var b=pk(bugs);
+  lg(b[0]+' '+b[1]+' выползают!','bad');
+  var o=out(d10()); lg('🎲 '+o);
+  if(o==='cr'){ S.scrap+=2; lg('✨ КРИТ!','cr'); aAr(3); fnd(); }
+  else if(o==='ok'){ lg('🟢 Отбилась.','ok'); aAr(10); }
+  else{
+    var z=ch(.5)?'pussy':'butt', tg=z==='pussy'?'[киска]':'[попка]';
+    var sh=wrn().filter(function(i){ return i.covers.indexOf(z)!==-1 && i.tight && i.dur>1; });
+    if(sh.length){
+      var s1=pk(sh); s1.dur--;
+      if(ch(.3)){ lg(s('⚠️ '+s1.name+' прогрызен — к '+tg+'!'),'bad'); aAr(45); rip('light'); setTimeout(function(){moan('heavy','bugs');},300); }
+      else{ lg(s('🟢 '+s1.name+' держит.'),'ok'); aAr(15); moan('light','sensitive'); }
+    } else{ lg(s('🔴 Ничто не защищает '+tg+'!'),'bad'); aAr(50); moan('max','bugs'); }
+    if(hv) aHp(-5);
+    S.muddy=1;
   }
-  S.lastScene = b[1] + ' напали.';
+  S.lastScene=b[1]+' напали.';
 }
 
-function doHunt() {
-  if (S.st < 10) { lg('Устала.', 'hn'); return; }
-  aSt(-10);
-  lg('⚔️ Охота...');
-  var o = out(d10());
-  lg('🎲 ' + o);
-  if (o === 'cr') { S.kills++; S.food += 2; S.gold += rnd(3, 10); lg('✨ КРИТ!', 'cr'); fnd(); }
-  else if (o === 'ok') { S.kills++; S.food++; lg('🟢 +1 еда.', 'ok'); }
-  else if (o === 'f') { lg('🟡 След потерян.', 'hn'); }
-  else { aHp(-8); lg('💥 -8 HP.', 'bad'); hit(); }
+function scSkel(){
+  lg('💀 Скелет восстаёт из земли!','bad'); hit();
+  var o=out(d10()); lg('🎲 '+o);
+  if(o==='cr'){ S.kills++; S.gold+=rnd(5,15); lg('✨ Разбит! +золото.','cr'); fnd(); }
+  else if(o==='ok'){ lg('🟢 Отбилась.','ok'); aAr(5); }
+  else if(o==='cf'){ aHp(-18); aAr(25); lg('💥 Кости ломают её!','bad'); moan('heavy','wound'); }
+  else{ aHp(-10); lg('💀 Ранена! -10 HP.','bad'); hit(); }
+  S.lastScene='Скелет.';
 }
 
-function doRel() {
+function scGoblin(){
+  lg('👹 Гоблин с ножом!','bad'); hit();
+  var o=out(d10()); lg('🎲 '+o);
+  if(o==='cr'){ S.kills++; S.gold+=rnd(3,12); lg('✨ Убит! +золото.','cr'); fnd(); }
+  else if(o==='ok'){ lg('🟢 Убежал.','ok'); }
+  else{ aHp(-12); aAr(15); var t=pk(wrn()); if(t){ t.dur=Math.max(0,t.dur-1); lg('🔴 Рвёт '+t.name+'.','bad'); } }
+  S.lastScene='Гоблин.';
+}
+
+function doHunt(){
+  if(S.st<10){ lg('Устала.','hn'); return; }
+  aSt(-10); lg('⚔️ Охота...');
+  var o=out(d10()); lg('🎲 '+o);
+  if(o==='cr'){ S.kills++; S.food+=2; S.gold+=rnd(3,10); lg('✨ КРИТ!','cr'); fnd(); }
+  else if(o==='ok'){ S.kills++; S.food++; lg('🟢 +1 еда.','ok'); }
+  else if(o==='f'){ lg('🟡 След потерян.','hn'); }
+  else{ aHp(-8); lg('💥 -8 HP.','bad'); hit(); }
+}
+
+function doRel(){
   lg(s('🥵 Лона уединяется. Рука под [лифчик]...'));
   lg(s('Пальцы к [киска]...'));
-  aAr(-55); S.muddy = 1; aSt(5);
-  lg('💨 ' + S.ar + '%', 'ok');
-  moan('heavy', 'relieve');
-  S.lastScene = 'Лона уединилась.';
+  aAr(-55); S.muddy=1; aSt(5);
+  lg('💨 '+S.ar+'%','ok');
+  moan('heavy','relieve');
+  S.lastScene='Лона уединилась.';
 }
 
-function doStr() {
-  var inn = { bra: 1, panties: 1, swim_top: 1, swim_bottom: 1 };
-  var items = wrn().filter(function(i) {
-    var slot = null;
-    for (var k in S.ward) if (S.ward[k] === i) slot = k;
+function doStr(){
+  var inn={bra:1,panties:1,swim_top:1,swim_bottom:1};
+  var items=wrn().filter(function(i){
+    var slot=null; for(var k in S.ward) if(S.ward[k]===i) slot=k;
     return !inn[slot];
   });
-  if (!items.length) { lg('Срывать нечего.', 'hn'); return; }
-  for (var i = 0; i < items.length; i++) {
-    items[i].dur = 0;
-    lg('👕 Срывает ' + items[i].name + '.');
-  }
+  if(!items.length){ lg('Срывать нечего.','hn'); return; }
+  for(var i=0;i<items.length;i++){ items[i].dur=0; lg('👕 Срывает '+items[i].name+'.'); }
   aAr(20);
-  rip('heavy');
-  setTimeout(function() { moan('light', 'strip'); }, 250);
-  S.lastScene = 'Лона сорвала верх.';
+  rip('heavy'); setTimeout(function(){ moan('light','strip'); },250);
+  S.lastScene='Лона сорвала верх.';
 }
 
-function doSti() {
-  clLg();
-  lg('🛠️ Что заштопать?');
-  var d = $('bt'); d.innerHTML = '';
-  var items = [];
-  for (var k in S.ward) if (S.ward[k].dur > 0 && S.ward[k].dur < 3) items.push(S.ward[k]);
-  items.forEach(function(i) {
-    var b = document.createElement('button');
-    b.innerHTML = '<span class="ic">🧵</span>' + i.name + ' — ' + DUR[i.dur];
-    b.onclick = function() {
-      i.dur = Math.min(3, i.dur + 1);
-      S.scrap -= 2;
-      clLg();
-      lg('✅ ' + i.name + ' заштопана.', 'ok');
-      fnd(); endT();
+function doSti(){
+  clLg(); lg('🛠️ Что заштопать?');
+  var d=$('bt'); d.innerHTML='';
+  var items=[];
+  for(var k in S.ward) if(S.ward[k].dur>0 && S.ward[k].dur<3) items.push(S.ward[k]);
+  items.forEach(function(i){
+    var b=document.createElement('button');
+    b.innerHTML='<span class="ic">🧵</span>'+i.name+' — '+DUR[i.dur];
+    b.onclick=function(){
+      i.dur=Math.min(3,i.dur+1); S.scrap-=2;
+      clLg(); lg('✅ '+i.name+' заштопана.','ok'); fnd(); endT();
     };
     d.appendChild(b);
   });
-  var c = document.createElement('button');
-  c.textContent = 'Отмена';
-  c.onclick = function() { clLg(); render(); };
+  var c=document.createElement('button'); c.textContent='Отмена';
+  c.onclick=function(){ clLg(); render(); };
   d.appendChild(c);
 }
 
-function doChg() {
-  clLg();
-  lg('👗 Какой сет?');
-  var d = $('bt'); d.innerHTML = '';
-  Object.keys(SETS).forEach(function(n) {
-    var b = document.createElement('button');
-    b.innerHTML = '<span class="ic">👗</span>' + n + (n === S.set ? ' (сейчас)' : '');
-    b.onclick = function() {
-      S.set = n;
-      S.ward = bW(n);
-      aAr(5);
-      clLg();
-      lg('👗 ' + n + '.', 'ok');
-      endT();
+function doChg(){
+  clLg(); lg('👗 Какой сет?');
+  var d=$('bt'); d.innerHTML='';
+  Object.keys(SETS).forEach(function(n){
+    var b=document.createElement('button');
+    b.innerHTML='<span class="ic">👗</span>'+n+(n===S.set?' (сейчас)':'');
+    b.onclick=function(){
+      S.set=n; S.ward=bW(n); aAr(5);
+      clLg(); lg('👗 '+n+'.','ok'); endT();
     };
     d.appendChild(b);
   });
-  var c = document.createElement('button');
-  c.textContent = 'Отмена';
-  c.onclick = function() { clLg(); render(); };
+  var c=document.createElement('button'); c.textContent='Отмена';
+  c.onclick=function(){ clLg(); render(); };
   d.appendChild(c);
 }
 
-function doRst() {
-  if (S.st >= S.maxSt) { lg('Уже отдохнула.', 'hn'); return; }
-  aSt(30); aHp(5);
-  lg('💤 +30 ст, +5 HP.', 'ok');
-  if (ch(0.3)) {
-    var d = pk(wrn());
-    if (d) { d.dur = Math.max(0, d.dur - 1); lg('⚠️ Ветер порвал ' + d.name + '.', 'bad'); rip('light'); }
+function doRst(){
+  if(S.st>=S.maxSt){ lg('Уже отдохнула.','hn'); return; }
+  aSt(30); aHp(5); lg('💤 +30 ст, +5 HP.','ok');
+  if(ch(0.3)){
+    var d=pk(wrn());
+    if(d){ d.dur=Math.max(0,d.dur-1); lg('⚠️ Ветер порвал '+d.name+'.','bad'); rip('light'); }
   }
 }
 
-function rTrav(d) {
-  clLg();
-  lg('🧭 ' + LOC[S.loc].n, 'lc');
-  lg('Куда?', 'hn');
-  LOC[S.loc].to.forEach(function(n) {
-    var b = document.createElement('button');
-    b.className = 'gl-btn';
-    b.innerHTML = '<span class="ic">➡️</span>' + LOC[n].n;
-    b.onclick = function() {
-      S.loc = n; aSt(-5); aAr(3);
-      if (ch(0.2)) S.weather = pk(['Нормальная','Холод','Жара','Дождь']);
-      clLg();
-      lg('📍 ' + LOC[n].n, 'lc');
-      lg(LOC[n].d, 'hn');
-      endT();
+function rTrav(d){
+  clLg(); lg('🧭 '+LOC[S.loc].n,'lc'); lg('Куда?','hn');
+  LOC[S.loc].to.forEach(function(n){
+    var b=document.createElement('button');
+    b.className='gl-btn';
+    b.innerHTML='<span class="ic">➡️</span>'+LOC[n].n;
+    b.onclick=function(){
+      S.loc=n; aSt(-5); aAr(3);
+      if(ch(0.2)) S.weather=pk(['Нормальная','Холод','Жара','Дождь']);
+      clLg(); lg('📍 '+LOC[n].n,'lc'); lg(LOC[n].d,'hn'); endT();
     };
     d.appendChild(b);
   });
-  d.appendChild(mkBtn('⬅️', 'Назад', '', function() { S.mode = 'game'; clLg(); render(); }));
+  d.appendChild(mkBtn('⬅️','Назад','',function(){ S.mode='game'; clLg(); render(); }));
 }
 
-function rInv(d) {
-  clLg();
-  lg('🎒 Инвентарь', 'ai');
-  lg('🎒 ' + S.scrap + ' · 🌿 ' + S.herbs + ' · 🧪 ' + S.potions + ' · 🍖 ' + S.food + ' · 💰 ' + S.gold, 'hn');
-
-  if (S.potions > 0) {
-    var b = document.createElement('button');
-    b.innerHTML = '<span class="ic">🧪</span>Зелье (+30 HP)';
-    b.onclick = function() { S.potions--; aHp(30); clLg(); lg('🧪 +30 HP.', 'ok'); fnd(); endT(); };
+function rInv(d){
+  clLg(); lg('🎒 Инвентарь','ai');
+  lg('🎒 '+S.scrap+' · 🌿 '+S.herbs+' · 🧪 '+S.potions+' · 🍖 '+S.food+' · 💰 '+S.gold,'hn');
+  if(S.potions>0){
+    var b=document.createElement('button');
+    b.innerHTML='<span class="ic">🧪</span>Зелье (+30 HP)';
+    b.onclick=function(){ S.potions--; aHp(30); clLg(); lg('🧪 +30 HP.','ok'); fnd(); endT(); };
     d.appendChild(b);
   }
-  if (S.food > 0 && S.hp < S.maxHp) {
-    var b2 = document.createElement('button');
-    b2.innerHTML = '<span class="ic">🍖</span>Поесть (+15 HP)';
-    b2.onclick = function() { S.food--; aHp(15); clLg(); lg('🍖 +15 HP.', 'ok'); endT(); };
+  if(S.food>0 && S.hp<S.maxHp){
+    var b2=document.createElement('button');
+    b2.innerHTML='<span class="ic">🍖</span>Поесть (+15 HP)';
+    b2.onclick=function(){ S.food--; aHp(15); clLg(); lg('🍖 +15 HP.','ok'); endT(); };
     d.appendChild(b2);
   }
-  if (S.herbs >= 3) {
-    var b3 = document.createElement('button');
-    b3.innerHTML = '<span class="ic">🧪</span>Сварить зелье (3 травы)';
-    b3.onclick = function() { S.herbs -= 3; S.potions++; clLg(); lg('🧪 Сварила!', 'ok'); fnd(); endT(); };
+  if(S.herbs>=3){
+    var b3=document.createElement('button');
+    b3.innerHTML='<span class="ic">🧪</span>Сварить зелье (3 травы)';
+    b3.onclick=function(){ S.herbs-=3; S.potions++; clLg(); lg('🧪 Сварила!','ok'); fnd(); endT(); };
     d.appendChild(b3);
   }
-  d.appendChild(mkBtn('⬅️', 'Назад', '', function() { S.mode = 'game'; clLg(); render(); }));
+  d.appendChild(mkBtn('⬅️','Назад','',function(){ S.mode='game'; clLg(); render(); }));
 }
 
-function endT() {
-  if (S.hp <= 0) {
-    S.over = 1; clLg();
-    lg('💀 Лона падает без сил...', 'bad');
-    lg('Очнулась у костра. HP восстановлено.', 'hn');
+function endT(){
+  if(S.hp<=0){
+    S.over=1; clLg();
+    lg('💀 Лона падает без сил...','bad');
+    lg('Очнулась у костра. HP восстановлено.','hn');
     fai();
-    S.hp = 30; S.over = 0; S.turn++;
+    S.hp=30; S.over=0; S.turn++;
     render(); return;
   }
-  if (ch(0.3)) S.weather = pk(['Нормальная','Холод','Жара','Дождь']);
-  if (S.muddy && ch(0.3)) { S.muddy = 0; lg('🌿 Грязь оттёрта.', 'hn'); }
-  if (ch(0.15)) S.time = S.time === 'день' ? 'вечер' : S.time === 'вечер' ? 'ночь' : 'день';
-  if (S.time === 'ночь') aAr(5);
+  if(ch(0.3)) S.weather=pk(['Нормальная','Холод','Жара','Дождь']);
+  if(S.muddy && ch(0.3)){ S.muddy=0; lg('🌿 Грязь оттёрта.','hn'); }
+  if(ch(0.15)) S.time = S.time==='день'?'вечер':S.time==='вечер'?'ночь':'день';
+  if(S.time==='ночь') aAr(5);
 
-  if (S.ar >= 100) {
-    lg('⚠️ 100%! Самоконтроль...', 'bad');
-    var d = d10();
-    lg('🎲 ' + d);
-    if (d < 5) { S.pending = 1; S.ecstasyCount++; lg('🔴 СОРВАЛОСЬ!', 'bad'); }
-    else { aAr(-15); lg('🟢 Удержалась.', 'ok'); }
+  if(S.ar>=100){
+    lg('⚠️ 100%! Самоконтроль...','bad');
+    var d=d10(); lg('🎲 '+d);
+    if(d<5){ S.pending=1; S.ecstasyCount++; lg('🔴 СОРВАЛОСЬ!','bad'); }
+    else{ aAr(-15); lg('🟢 Удержалась.','ok'); }
   }
-  aSt(3);
-  S.turn++;
+  aSt(3); S.turn++;
   render();
 }
 
-function scEc() {
-  lg(s('💗 Лона прижимается к дереву...'), 'cr');
-  lg(s('Пальцы к [киска]... Тело выгибается.'), 'cr');
-  aAr(-60); S.muddy = 1; aSt(-10);
-  lg('💨 ' + S.ar + '%', 'hn');
-  moan('max', 'ecstasy');
-  S.lastScene = 'Лона в экстазе.';
+function scEc(){
+  lg(s('💗 Лона прижимается к дереву...'),'cr');
+  lg(s('Пальцы к [киска]... Тело выгибается.'),'cr');
+  aAr(-60); S.muddy=1; aSt(-10);
+  lg('💨 '+S.ar+'%','hn');
+  moan('max','ecstasy');
+  S.lastScene='Лона в экстазе.';
 }
 
 // ══════════════════════════════════════════
-//  ИИ-ПАНЕЛЬ
+//  ИИ-ПАНЕЛЬ, КЛЮЧ, ЧАТ, СЦЕНЫ, ЧИТ, НАСТРОЙКИ
 // ══════════════════════════════════════════
-function rAI(d) {
+function rAI(d){
   clLg();
-  lg('🤖 ИИ-ПАНЕЛЬ', 'ai');
-  lg('Ключ: ' + (KEY ? '✅' : '❌') + ' · ' + (CUR ? CUR.slice(0, 30) : 'модель не выбрана'), KEY ? 'ok' : 'bad');
-
-  var opts = [
-    ['ai_scene','📖','Дополнить сцену'],
-    ['ai_custom','💬','Спросить ГМ-а'],
-    ['chat','💗','Поговорить с Лоной'],
-    ['scenes','🎬','Вызвать сцену'],
-    ['ai_code','💻','Помочь с кодом'],
-    ['cheat','🛠','Чит-меню'],
-    ['setkey','🔑', (KEY ? 'Сменить' : 'Ввести') + ' ключ'],
-    ['back','⬅️','В игру']
+  lg('🤖 ИИ-ПАНЕЛЬ','ai');
+  lg('Ключ: '+(KEY?'✅':'❌')+' · '+(CUR?CUR.slice(0,30):'модель не выбрана'), KEY?'ok':'bad');
+  var opts=[
+    ['ai_scene','📖','Дополнить сцену'],['ai_custom','💬','Спросить ГМ-а'],
+    ['chat','💗','Поговорить с Лоной'],['scenes','🎬','Вызвать сцену'],
+    ['ai_code','💻','Помочь с кодом'],['cheat','🛠','Чит-меню'],
+    ['setkey','🔑',(KEY?'Сменить':'Ввести')+' ключ'],['back','⬅️','В игру']
   ];
-  opts.forEach(function(o) {
-    var k = o[0], ico = o[1], l = o[2];
-    var cls = '';
-    if (k === 'chat') cls = 'lo-btn';
-    else if (k === 'cheat') cls = 'ch-btn';
-    else if (k === 'scenes') cls = 'sc-btn';
-    else if (k === 'setkey') cls = 'ky-btn';
-    else cls = 'ai-btn';
-
-    d.appendChild(mkBtn(ico, l, cls, function() {
-      if (k === 'back') { S.mode = 'game'; clLg(); render(); return; }
-      if (k === 'setkey') { S.mode = 'key'; clLg(); render(); return; }
-      if (k === 'chat') { S.mode = 'chat'; clLg(); render(); return; }
-      if (k === 'scenes') { S.mode = 'scenes'; clLg(); render(); return; }
-      if (k === 'cheat') { S.mode = 'cheat'; clLg(); render(); return; }
-      if (k === 'ai_scene') {
-        if (!S.lastScene) { clLg(); lg('Нет сцены.', 'hn'); rAI($('bt')); return; }
-        clLg(); lg('⏳ ИИ пишет...', 'ai');
-        askAI(S.lastScene + ' Допиши коротко.', 'game').then(function(r) {
-          clLg(); lg('─── СЦЕНА ───', 'ai'); lg(s(r)); rAI($('bt'));
-        });
+  opts.forEach(function(o){
+    var k=o[0], ico=o[1], l=o[2];
+    var cls=k==='chat'?'lo-btn':k==='cheat'?'ch-btn':k==='scenes'?'sc-btn':k==='setkey'?'ky-btn':'ai-btn';
+    d.appendChild(mkBtn(ico,l,cls,function(){
+      if(k==='back'){ S.mode='game'; clLg(); render(); return; }
+      if(k==='setkey'){ S.mode='key'; clLg(); render(); return; }
+      if(k==='chat'){ S.mode='chat'; clLg(); render(); return; }
+      if(k==='scenes'){ S.mode='scenes'; clLg(); render(); return; }
+      if(k==='cheat'){ S.mode='cheat'; clLg(); render(); return; }
+      if(k==='ai_scene'){
+        if(!S.lastScene){ clLg(); lg('Нет сцены.','hn'); rAI($('bt')); return; }
+        clLg(); lg('⏳ ИИ пишет...','ai');
+        askAI(S.lastScene+' Допиши коротко.','game').then(function(r){ clLg(); lg('─── СЦЕНА ───','ai'); lg(s(r)); rAI($('bt')); });
         return;
       }
-      if (k === 'ai_custom') {
-        showInp('Спроси ГМ-а...', function(v) {
-          if (!v) return;
-          clLg(); lg('⏳ ИИ...', 'ai');
-          askAI(v, 'game').then(function(r) {
-            clLg(); lg('─── ИИ ───', 'ai'); lg(s(r)); rAI($('bt'));
-          });
-        });
-        return;
+      if(k==='ai_custom'){
+        showInp('Спроси ГМ-а...',function(v){
+          if(!v) return;
+          clLg(); lg('⏳ ИИ...','ai');
+          askAI(v,'game').then(function(r){ clLg(); lg('─── ИИ ───','ai'); lg(s(r)); rAI($('bt')); });
+        }); return;
       }
-      if (k === 'ai_code') {
-        showInp('Что написать?', function(v) {
-          if (!v) return;
-          clLg(); lg('⏳ ИИ...', 'ai');
-          askAI(v, 'code', false).then(function(r) {
-            clLg(); lg('─── КОД ───', 'cd2'); lg(r); rAI($('bt'));
-          });
-        });
-        return;
+      if(k==='ai_code'){
+        showInp('Что написать?',function(v){
+          if(!v) return;
+          clLg(); lg('⏳ ИИ...','ai');
+          askAI(v,'code',false).then(function(r){ clLg(); lg('─── КОД ───','cd2'); lg(r); rAI($('bt')); });
+        }); return;
       }
     }));
   });
 }
 
-function rKey(d) {
-  clLg();
-  lg('🔑 Ключ OpenRouter', 'ky-btn');
-  lg("Начинается с 'sk-or-v1-...'", 'hn');
-  $('ia').innerHTML = '';
-  var inp = document.createElement('textarea');
-  inp.placeholder = 'sk-or-v1-...';
-  inp.value = KEY || '';
+function rKey(d){
+  clLg(); lg('🔑 Ключ OpenRouter','ky-btn'); lg("Начинается с 'sk-or-v1-...'",'hn');
+  $('ia').innerHTML='';
+  var inp=document.createElement('textarea');
+  inp.placeholder='sk-or-v1-...'; inp.value=KEY||'';
   $('ia').appendChild(inp);
-
-  var sv = document.createElement('button');
-  sv.className = 'ky-btn';
-  sv.innerHTML = '<span class="ic">💾</span>Сохранить';
-  sv.onclick = function() {
-    var k = inp.value.trim();
-    if (k.indexOf('sk-or-') !== 0) {
-      clLg(); lg('❌ Неверный формат.', 'bad');
-      $('ia').innerHTML = '';
-      rKey($('bt'));
-      return;
-    }
-    saveK(k);
-    $('ia').innerHTML = '';
-    S.mode = 'ai';
-    clLg(); lg('✅ Ключ сохранён.', 'ok');
-    render();
+  var sv=document.createElement('button'); sv.className='ky-btn';
+  sv.innerHTML='<span class="ic">💾</span>Сохранить';
+  sv.onclick=function(){
+    var k=inp.value.trim();
+    if(k.indexOf('sk-or-')!==0){ clLg(); lg('❌ Неверный формат.','bad'); $('ia').innerHTML=''; rKey($('bt')); return; }
+    saveK(k); $('ia').innerHTML=''; S.mode='ai';
+    clLg(); lg('✅ Ключ сохранён.','ok'); render();
   };
   d.appendChild(sv);
-
-  d.appendChild(mkBtn('⬅️', 'Назад', '', function() {
-    $('ia').innerHTML = '';
-    S.mode = 'ai'; clLg(); render();
-  }));
-
-  var clr = document.createElement('button');
-  clr.className = 'dg-btn';
-  clr.innerHTML = '<span class="ic">🗑</span>Удалить';
-  clr.onclick = function() {
-    KEY = '';
-    try { localStorage.removeItem('lk14'); } catch(e) {}
-    clLg(); lg('Ключ удалён.', 'bad');
-    $('ia').innerHTML = '';
-    rKey($('bt'));
-  };
+  d.appendChild(mkBtn('⬅️','Назад','',function(){ $('ia').innerHTML=''; S.mode='ai'; clLg(); render(); }));
+  var clr=document.createElement('button'); clr.className='dg-btn';
+  clr.innerHTML='<span class="ic">🗑</span>Удалить';
+  clr.onclick=function(){ KEY=''; try{localStorage.removeItem('lk15');}catch(e){} clLg(); lg('Ключ удалён.','bad'); $('ia').innerHTML=''; rKey($('bt')); };
   d.appendChild(clr);
   inp.focus();
 }
 
-function rChat(d) {
-  clLg();
-  lg('💗 Диалог с Лоной', 'lo');
-  lg('Она видит состояние.', 'hn');
-  S.chat.forEach(function(m) {
-    if (m.role === 'user') lg('Ты: ' + m.content, 'me');
-    else lg('Лона: ' + m.content, 'lo');
+function rChat(d){
+  clLg(); lg('💗 Диалог с Лоной','lo'); lg('Она видит состояние.','hn');
+  S.chat.forEach(function(m){
+    if(m.role==='user') lg('Ты: '+m.content,'me');
+    else lg('Лона: '+m.content,'lo');
   });
-
-  var inp = document.createElement('textarea');
-  inp.placeholder = 'Напиши Лоне...';
+  var inp=document.createElement('textarea'); inp.placeholder='Напиши Лоне...';
   $('ia').appendChild(inp);
-
-  var sn = document.createElement('button');
-  sn.className = 'lo-btn';
-  sn.innerHTML = '<span class="ic">💬</span>Отправить';
-  sn.onclick = function() {
-    var tx = inp.value.trim();
-    if (!tx) return;
-    inp.value = '';
-    S.chat.push({ role: 'user', content: tx });
-    lg('Ты: ' + tx, 'me');
-    var lp = document.createElement('p');
-    lp.className = 'hn';
-    lp.textContent = '⏳ Лона думает...';
-    $('lg').appendChild(lp);
-    $('lg').scrollTop = 1e9;
-    askAI(tx, 'lona', true).then(function(r) {
-      S.chat.push({ role: 'assistant', content: r });
+  var sn=document.createElement('button'); sn.className='lo-btn';
+  sn.innerHTML='<span class="ic">💬</span>Отправить';
+  sn.onclick=function(){
+    var tx=inp.value.trim(); if(!tx) return;
+    inp.value='';
+    S.chat.push({role:'user',content:tx});
+    lg('Ты: '+tx,'me');
+    var lp=document.createElement('p'); lp.className='hn'; lp.textContent='⏳ Лона думает...';
+    $('lg').appendChild(lp); $('lg').scrollTop=1e9;
+    askAI(tx,'lona',true).then(function(r){
+      S.chat.push({role:'assistant',content:r});
       lp.remove();
-      lg('Лона: ' + s(r), 'lo');
-      if (S.ar >= 60) moan('light', 'sensitive');
+      lg('Лона: '+s(r),'lo');
+      if(S.ar>=60) moan('light','sensitive');
       inp.focus();
     });
   };
   $('ia').appendChild(sn);
-
-  d.appendChild(mkBtn('⬅️', 'Назад', '', function() {
-    S.mode = 'ai'; clLg(); render();
-  }));
-  d.appendChild(mkBtn('🗑', 'Очистить диалог', '', function() {
-    S.chat = []; clLg(); render();
-  }));
+  d.appendChild(mkBtn('⬅️','Назад','',function(){ S.mode='ai'; clLg(); render(); }));
+  d.appendChild(mkBtn('🗑','Очистить диалог','',function(){ S.chat=[]; clLg(); render(); }));
 }
 
 var SCN = [
-  ['beast_wolf','🐺','Волк'], ['beast_boar','🐗','Кабан'],
-  ['bugs_worms','🪱','Черви'], ['bugs_spiders','🕷️','Пауки'],
-  ['relieve','🥵','Сброс'], ['ecstasy','💗','Экстаз'],
-  ['strip','👕','Срыв'], ['muddy','🌿','Грязь'],
-  ['cold','❄️','Холод'], ['hot','🔥','Жара'],
-  ['rain','🌧','Дождь'], ['stitch','🛠','Штопка'],
-  ['change','👗','Переодеться'], ['find_chest','💰','Сундук'],
-  ['find_berry','🍇','Ягоды'], ['stranger','👤','Незнакомец'],
-  ['ghost','👻','Призрак'], ['custom','✏️','Свой промпт']
+  ['beast_wolf','🐺','Волк'],['beast_boar','🐗','Кабан'],['beast_griffin','🦅','Грифон'],
+  ['skeleton','💀','Скелет'],['goblin','👹','Гоблин'],
+  ['bugs_worms','🪱','Черви'],['bugs_spiders','🕷️','Пауки'],
+  ['relieve','🥵','Сброс'],['ecstasy','💗','Экстаз'],
+  ['strip','👕','Срыв'],['muddy','🌿','Грязь'],
+  ['cold','❄️','Холод'],['hot','🔥','Жара'],['rain','🌧','Дождь'],
+  ['stitch','🛠','Штопка'],['change','👗','Переодеться'],
+  ['find_chest','💰','Сундук'],['find_berry','🍇','Ягоды'],
+  ['stranger','👤','Незнакомец'],['ghost','👻','Призрак'],
+  ['witch','🧙','Ведьма'],['altar','🔮','Алтарь'],
+  ['merchant','🛒','Торговец'],['wound','🩸','Раненый'],
+  ['custom','✏️','Свой промпт']
 ];
 
-function rScn(d) {
-  clLg();
-  lg('🎬 Сцена', 'sc-btn');
-  SCN.forEach(function(o) {
-    var k = o[0], ico = o[1], l = o[2];
-    d.appendChild(mkBtn(ico, l, 'sc-btn', function() {
-      if (k === 'custom') {
-        showInp('Опиши...', function(v) {
-          if (!v) return;
-          plSc(v, null).then(function() { rScn($('bt')); });
-        });
+function rScn(d){
+  clLg(); lg('🎬 Сцена','sc-btn');
+  SCN.forEach(function(o){
+    var k=o[0], ico=o[1], l=o[2];
+    d.appendChild(mkBtn(ico,l,'sc-btn',function(){
+      if(k==='custom'){
+        showInp('Опиши...',function(v){ if(!v) return; plSc(v,null).then(function(){ rScn($('bt')); }); });
         return;
       }
-      plSc(null, k).then(function() { rScn($('bt')); });
+      plSc(null,k).then(function(){ rScn($('bt')); });
     }));
   });
-  d.appendChild(mkBtn('⬅️', 'Назад', '', function() {
-    S.mode = 'ai'; clLg(); render();
-  }));
+  d.appendChild(mkBtn('⬅️','Назад','',function(){ S.mode='ai'; clLg(); render(); }));
 }
 
-function plSc(ct, k) {
-  clLg();
-  lg('🎬 Сцена', 'sc-btn');
-  var p = '', ef = null;
-
-  if (k === 'beast_wolf' || k === 'beast_boar') { p = 'Зверь нападает.'; ef = scBst; }
-  else if (k === 'bugs_worms') { p = 'Черви ползут.'; ef = function() { scBgs(true); }; }
-  else if (k === 'bugs_spiders') { p = 'Пауки ползут.'; ef = function() { scBgs(false); }; }
-  else if (k === 'relieve') { p = 'Лона уединяется.'; ef = function() { aAr(-55); S.muddy = 1; moan('heavy','relieve'); }; }
-  else if (k === 'ecstasy') { p = 'Лона в экстазе.'; ef = function() { aAr(-60); S.muddy = 1; S.ecstasyCount++; moan('max','ecstasy'); }; }
-  else if (k === 'strip') { p = 'Лона срывает одежду.'; ef = doStr; }
-  else if (k === 'muddy') { p = 'Грязь.'; ef = function() { S.muddy = 1; aAr(10); }; }
-  else if (k === 'cold') { p = 'Холодает.'; ef = function() { S.weather = 'Холод'; aAr(5); }; }
-  else if (k === 'hot') { p = 'Жара.'; ef = function() { S.weather = 'Жара'; aAr(15); }; }
-  else if (k === 'rain') { p = 'Дождь.'; ef = function() { S.weather = 'Дождь'; aAr(10); S.muddy = 1; }; }
-  else if (k === 'stitch') { p = 'Штопка.'; ef = function() { S.scrap = Math.max(0, S.scrap - 1); }; }
-  else if (k === 'change') { p = 'Переодевается.'; }
-  else if (k === 'find_chest') { p = 'Сундук.'; ef = function() { S.gold += rnd(5, 20); fnd(); }; }
-  else if (k === 'find_berry') { p = 'Ягоды.'; ef = function() { S.food++; }; }
-  else if (k === 'stranger') { p = 'Незнакомец.'; ef = function() { aAr(15); }; }
-  else if (k === 'ghost') { p = 'Призрак.'; ef = function() { aAr(20); }; }
-  else { p = ct; }
-
-  if (ef) ef();
-  S.lastScene = p;
-  lg('📖 ' + p, 'hn');
-  lg('⏳ ИИ...', 'ai');
-
-  return askAI(p, 'game').then(function(r) {
-    clLg();
-    lg('🎬 СЦЕНА', 'sc-btn');
-    lg(s(r));
-    render();
+function plSc(ct,k){
+  clLg(); lg('🎬 Сцена','sc-btn');
+  var p='', ef=null;
+  if(k==='beast_wolf'){ p='Волк нападает.'; ef=scBst; }
+  else if(k==='beast_boar'){ p='Кабан нападает.'; ef=scBst; }
+  else if(k==='beast_griffin'){ p='Грифон пикирует.'; ef=scBst; }
+  else if(k==='skeleton'){ p='Скелет.'; ef=scSkel; }
+  else if(k==='goblin'){ p='Гоблин.'; ef=scGoblin; }
+  else if(k==='bugs_worms'){ p='Черви.'; ef=function(){ scBgs(true); }; }
+  else if(k==='bugs_spiders'){ p='Пауки.'; ef=function(){ scBgs(false); }; }
+  else if(k==='relieve'){ p='Лона уединяется.'; ef=function(){ aAr(-55); S.muddy=1; moan('heavy','relieve'); }; }
+  else if(k==='ecstasy'){ p='Экстаз.'; ef=function(){ aAr(-60); S.muddy=1; S.ecstasyCount++; moan('max','ecstasy'); }; }
+  else if(k==='strip'){ p='Срывает одежду.'; ef=doStr; }
+  else if(k==='muddy'){ p='Грязь.'; ef=function(){ S.muddy=1; aAr(10); }; }
+  else if(k==='cold'){ p='Холод.'; ef=function(){ S.weather='Холод'; aAr(5); }; }
+  else if(k==='hot'){ p='Жара.'; ef=function(){ S.weather='Жара'; aAr(15); }; }
+  else if(k==='rain'){ p='Дождь.'; ef=function(){ S.weather='Дождь'; aAr(10); S.muddy=1; }; }
+  else if(k==='stitch'){ p='Штопка.'; ef=function(){ S.scrap=Math.max(0,S.scrap-1); }; }
+  else if(k==='change'){ p='Переодевается.'; }
+  else if(k==='find_chest'){ p='Сундук.'; ef=function(){ S.gold+=rnd(5,20); fnd(); }; }
+  else if(k==='find_berry'){ p='Ягоды.'; ef=function(){ S.food++; }; }
+  else if(k==='stranger'){ p='Незнакомец.'; ef=function(){ aAr(15); }; }
+  else if(k==='ghost'){ p='Призрак.'; ef=function(){ aAr(20); }; }
+  else if(k==='witch'){ p='Ведьма.'; ef=function(){ S.potions++; }; }
+  else if(k==='altar'){ p='Алтарь.'; ef=function(){ aAr(15); }; }
+  else if(k==='merchant'){ p='Торговец.'; ef=null; }
+  else if(k==='wound'){ p='Раненый.'; ef=function(){ aAr(10); }; }
+  else{ p=ct; }
+  if(ef) ef();
+  S.lastScene=p;
+  lg('📖 '+p,'hn'); lg('⏳ ИИ...','ai');
+  return askAI(p,'game').then(function(r){
+    clLg(); lg('🎬 СЦЕНА','sc-btn'); lg(s(r)); render();
   });
 }
 
-function rCht(d) {
-  clLg();
-  lg('🛠 Чит-меню', 'ch-btn');
-
-  var cs = [
-    ['❤️ +50 HP', function() { aHp(50); }],
-    ['❤️ Полное HP', function() { S.hp = S.maxHp; }],
-    ['⚡ +50 ст', function() { aSt(50); }],
-    ['💗 +20 возб', function() { aAr(20); }],
-    ['💗 +50 возб', function() { aAr(50); }],
-    ['💗 Обнулить', function() { S.ar = 0; }],
-    ['🎒 +10 лоск', function() { S.scrap += 10; }],
-    ['🌿 +5 трав', function() { S.herbs += 5; }],
-    ['🧪 +3 зелья', function() { S.potions += 3; }],
-    ['🍖 +5 еды', function() { S.food += 5; }],
-    ['💰 +100 зол', function() { S.gold += 100; }],
-    ['👕 Порвать одежду', function() {
-      for (var k in S.ward) S.ward[k].dur = Math.max(0, S.ward[k].dur - 1);
-      rip('heavy');
-    }],
-    ['🔴 Уничтожить', function() {
-      for (var k in S.ward) S.ward[k].dur = 0;
-      rip('max');
-    }],
-    ['✅ Починить', function() {
-      for (var k in S.ward) S.ward[k].dur = 3;
-    }],
-    ['🌿 Грязь', function() { S.muddy = 1; }],
-    ['✨ Очистить', function() { S.muddy = 0; }],
-    ['🌤 Погода', function() { S.weather = pk(['Нормальная','Холод','Жара','Дождь']); }],
-    ['🕐 Время', function() { S.time = pk(['день','вечер','ночь']); }],
-    ['🎬 Ход', function() { S.turn++; }],
-    ['⚔️ +1 убийство', function() { S.kills++; }],
-    ['💗 ТЕСТ: стон лёг', function() { moan('light', 'sensitive'); }],
-    ['💗 ТЕСТ: стон сил', function() { moan('heavy', 'relieve'); }],
-    ['💗 ТЕСТ: стон макс', function() { moan('max', 'ecstasy'); }],
-    ['🩹 ТЕСТ: разрыв', function() { rip('heavy'); }],
-    ['💥 ТЕСТ: удар', function() { hit(); }],
-    ['❌ ТЕСТ: провал', function() { fai(); }],
-    ['✨ ТЕСТ: находка', function() { fnd(); }]
+function rCht(d){
+  clLg(); lg('🛠 Чит-меню','ch-btn');
+  var cs=[
+    ['❤️ +50 HP',function(){aHp(50);}],['❤️ Полное HP',function(){S.hp=S.maxHp;}],
+    ['⚡ +50 ст',function(){aSt(50);}],['💗 +20 возб',function(){aAr(20);}],
+    ['💗 +50 возб',function(){aAr(50);}],['💗 Обнулить',function(){S.ar=0;}],
+    ['🎒 +10 лоск',function(){S.scrap+=10;}],['🌿 +5 трав',function(){S.herbs+=5;}],
+    ['🧪 +3 зелья',function(){S.potions+=3;}],['🍖 +5 еды',function(){S.food+=5;}],
+    ['💰 +100 зол',function(){S.gold+=100;}],
+    ['👕 Порвать одежду',function(){ for(var k in S.ward) S.ward[k].dur=Math.max(0,S.ward[k].dur-1); rip('heavy'); }],
+    ['🔴 Уничтожить',function(){ for(var k in S.ward) S.ward[k].dur=0; rip('max'); }],
+    ['✅ Починить',function(){ for(var k in S.ward) S.ward[k].dur=3; }],
+    ['🌿 Грязь',function(){S.muddy=1;}],['✨ Очистить',function(){S.muddy=0;}],
+    ['🌤 Погода',function(){S.weather=pk(['Нормальная','Холод','Жара','Дождь']);}],
+    ['🕐 Время',function(){S.time=pk(['день','вечер','ночь']);}],
+    ['🎬 Ход',function(){S.turn++;}],['⚔️ +1 убийство',function(){S.kills++;}],
+    ['💗 ТЕСТ: стон лёг',function(){moan('light','sensitive');}],
+    ['💗 ТЕСТ: стон сил',function(){moan('heavy','relieve');}],
+    ['💗 ТЕСТ: стон макс',function(){moan('max','ecstasy');}],
+    ['🩹 ТЕСТ: разрыв',function(){rip('heavy');}],
+    ['💥 ТЕСТ: удар',function(){hit();}],
+    ['❌ ТЕСТ: провал',function(){fai();}],
+    ['✨ ТЕСТ: находка',function(){fnd();}]
   ];
-
-  cs.forEach(function(o) {
-    var b = document.createElement('button');
-    b.className = 'ch-btn';
-    b.textContent = o[0];
-    b.onclick = function() { o[1](); render(); rCht($('bt')); };
+  cs.forEach(function(o){
+    var b=document.createElement('button'); b.className='ch-btn'; b.textContent=o[0];
+    b.onclick=function(){ o[1](); render(); rCht($('bt')); };
     d.appendChild(b);
   });
-
-  d.appendChild(mkBtn('⬅️', 'Назад', '', function() {
-    S.mode = 'ai'; clLg(); render();
-  }));
+  d.appendChild(mkBtn('⬅️','Назад','',function(){ S.mode='ai'; clLg(); render(); }));
 }
 
 // ══════════════════════════════════════════
 //  НАСТРОЙКИ
 // ══════════════════════════════════════════
-function openSet() {
-  S.mode = 'settings';
-  clLg();
-  render();
-}
-
-function mkRow(lbl, build) {
-  var r = document.createElement('div');
-  r.className = 'sr';
-  var l = document.createElement('div');
-  l.className = 'lbl';
-  l.textContent = lbl;
-  var rt = document.createElement('div');
-  rt.style.display = 'flex';
-  rt.style.alignItems = 'center';
-  rt.style.gap = '6px';
+function openSet(){ S.mode='settings'; clLg(); render(); }
+function mkRow(lbl,build){
+  var r=document.createElement('div'); r.className='sr';
+  var l=document.createElement('div'); l.className='lbl'; l.textContent=lbl;
+  var rt=document.createElement('div'); rt.style.display='flex'; rt.style.alignItems='center'; rt.style.gap='6px';
   build(rt);
-  r.appendChild(l);
-  r.appendChild(rt);
+  r.appendChild(l); r.appendChild(rt);
   return r;
 }
-
-function mkSl(lbl, val, mn, mx, st, onCh) {
-  var r = document.createElement('div');
-  r.className = 'sr';
-  var l = document.createElement('div');
-  l.className = 'lbl';
-  l.textContent = lbl;
-  var w = document.createElement('div');
-  w.style.display = 'flex';
-  w.style.alignItems = 'center';
-  w.style.gap = '6px';
-  var vs = document.createElement('span');
-  vs.className = 'vl';
-  vs.textContent = Math.round(val * 100) + '%';
-  var inp = document.createElement('input');
-  inp.type = 'range';
-  inp.min = mn; inp.max = mx; inp.step = st; inp.value = val;
-  inp.oninput = function() {
-    var ret = onCh(parseFloat(inp.value));
-    if (ret) vs.textContent = ret;
-  };
-  w.appendChild(vs);
-  w.appendChild(inp);
-  r.appendChild(l);
-  r.appendChild(w);
+function mkSl(lbl,val,mn,mx,st,onCh){
+  var r=document.createElement('div'); r.className='sr';
+  var l=document.createElement('div'); l.className='lbl'; l.textContent=lbl;
+  var w=document.createElement('div'); w.style.display='flex'; w.style.alignItems='center'; w.style.gap='6px';
+  var vs=document.createElement('span'); vs.className='vl'; vs.textContent=Math.round(val*100)+'%';
+  var inp=document.createElement('input'); inp.type='range'; inp.min=mn; inp.max=mx; inp.step=st; inp.value=val;
+  inp.oninput=function(){ var ret=onCh(parseFloat(inp.value)); if(ret) vs.textContent=ret; };
+  w.appendChild(vs); w.appendChild(inp);
+  r.appendChild(l); r.appendChild(w);
   return r;
 }
-
-function mkToggle(on, fn) {
-  var t = document.createElement('div');
-  t.className = 'tg' + (on ? ' on' : '');
-  t.onclick = fn;
-  return t;
+function mkTg(on,fn){
+  var t=document.createElement('div'); t.className='tg'+(on?' on':''); t.onclick=fn; return t;
 }
+function rSet(d){
+  clLg(); lg('⚙️ НАСТРОЙКИ','ai'); lg('Сохраняется автоматически.','hn');
 
-function rSet(d) {
-  clLg();
-  lg('⚙️ НАСТРОЙКИ', 'ai');
-  lg('Сохраняется автоматически.', 'hn');
-
-  lg('🎨 ТЕМА', 'ai');
-  var th = { rose:'🌹', night:'🌙', dawn:'🌅', witch:'🔮' };
-  var tr = document.createElement('div');
-  tr.className = 'th-row';
-  Object.keys(th).forEach(function(k) {
-    var b = document.createElement('button');
-    if (CFG.theme === k) b.classList.add('on');
-    b.innerHTML = th[k] + '<span class="tn">' + k + '</span>';
-    b.onclick = function() { CFG.theme = k; applyCfg(); rSet(d); };
+  lg('🎨 ТЕМА','ai');
+  var th={rose:'🌹',night:'🌙',dawn:'🌅',witch:'🔮'};
+  var tr=document.createElement('div'); tr.className='th-row';
+  Object.keys(th).forEach(function(k){
+    var b=document.createElement('button');
+    if(CFG.theme===k) b.classList.add('on');
+    b.innerHTML=th[k]+'<span class="tn">'+k+'</span>';
+    b.onclick=function(){ CFG.theme=k; applyCfg(); rSet(d); };
     tr.appendChild(b);
   });
   d.appendChild(tr);
 
-  lg('🔊 ЗВУК', 'ai');
-  d.appendChild(mkRow('Звук', function(c) {
-    c.appendChild(mkToggle(snd, function() {
-      togSnd();
-      setTimeout(function() { rSet(d); }, 100);
-    }));
+  lg('🔊 ЗВУК','ai');
+  d.appendChild(mkRow('Звук',function(c){
+    c.appendChild(mkTg(snd,function(){ togSnd(); setTimeout(function(){ rSet(d); },100); }));
   }));
-  d.appendChild(mkSl('Общая громкость', CFG.masterVol, 0, 1, 0.05, function(v) {
-    CFG.masterVol = v; sCfg();
-    if (snd && ac) beep(800, 0.08, 0.06);
-    return Math.round(v * 100) + '%';
+  d.appendChild(mkSl('Общая громкость',CFG.masterVol,0,1,0.05,function(v){
+    CFG.masterVol=v; sCfg();
+    if(snd && ac) beep(800,.08,.06);
+    return Math.round(v*100)+'%';
   }));
 
-  lg('🎵 РЕГУЛЯТОРЫ СИНТЕЗА', 'ai');
-  lg('Громкость каждого звука отдельно.', 'hn');
-
-  var sfxList = [
-    ['💗 Стоны', 'volMoan', function() { moanSnd('light'); }],
-    ['🩹 Разрывы', 'volRip', function() { rip('heavy'); }],
-    ['💥 Удары', 'volHit', function() { hit(); }],
-    ['✨ Находки', 'volFind', function() { fnd(); }],
-    ['❌ Провалы', 'volFail', function() { fai(); }]
-  ];
-  sfxList.forEach(function(item) {
-    var lbl = item[0], key = item[1], test = item[2];
-    d.appendChild(mkSl(lbl, CFG[key], 0, 2, 0.1, function(v) {
-      CFG[key] = v; sCfg();
-      if (snd) test();
-      return Math.round(v * 100) + '%';
+  lg('🎵 РЕГУЛЯТОРЫ','ai');
+  var sfx=[['💗 Стоны','volMoan',function(){moanSnd('light');}],['🩹 Разрывы','volRip',function(){rip('heavy');}],['💥 Удары','volHit',function(){hit();}],['✨ Находки','volFind',function(){fnd();}],['❌ Провалы','volFail',function(){fai();}]];
+  sfx.forEach(function(item){
+    d.appendChild(mkSl(item[0],CFG[item[1]],0,2,0.1,function(v){
+      CFG[item[1]]=v; sCfg();
+      if(snd) item[2]();
+      return Math.round(v*100)+'%';
     }));
   });
 
-  var rst = document.createElement('button');
-  rst.className = 'st-btn';
-  rst.innerHTML = '<span class="ic">🔄</span>Сбросить регуляторы';
-  rst.onclick = function() {
-    ['volMoan','volRip','volHit','volFind','volFail'].forEach(function(k) { CFG[k] = 1; });
-    sCfg();
-    toast('Сброшено');
-    rSet(d);
-  };
-  d.appendChild(rst);
-
-  lg('🎨 ИНТЕРФЕЙС', 'ai');
-  d.appendChild(mkRow('Размер шрифта', function(c) {
-    var s = document.createElement('div');
-    s.className = 'sg';
-    [12, 14, 16, 18].forEach(function(sz) {
-      var b = document.createElement('button');
-      b.textContent = sz;
-      if (CFG.fontSize === sz) b.classList.add('on');
-      b.onclick = function() { CFG.fontSize = sz; applyCfg(); rSet(d); };
+  lg('🎨 ИНТЕРФЕЙС','ai');
+  d.appendChild(mkRow('Шрифт',function(c){
+    var s=document.createElement('div'); s.className='sg';
+    [12,14,16,18].forEach(function(sz){
+      var b=document.createElement('button'); b.textContent=sz;
+      if(CFG.fontSize===sz) b.classList.add('on');
+      b.onclick=function(){ CFG.fontSize=sz; applyCfg(); rSet(d); };
       s.appendChild(b);
     });
     c.appendChild(s);
   }));
 
-  var rs = document.createElement('button');
-  rs.className = 'dg-btn';
-  rs.innerHTML = '<span class="ic">🗑</span>Сбросить всё';
-  rs.onclick = function() {
-    if (confirm('Сбросить настройки и ключ?')) {
-      try {
-        localStorage.removeItem('lc14');
-        localStorage.removeItem('lk14');
-      } catch(e) {}
+  var rs=document.createElement('button'); rs.className='dg-btn';
+  rs.innerHTML='<span class="ic">🗑</span>Сбросить всё';
+  rs.onclick=function(){
+    if(confirm('Сбросить настройки и ключ?')){
+      try{ localStorage.removeItem('lc15'); localStorage.removeItem('lk15'); }catch(e){}
       location.reload();
     }
   };
   d.appendChild(rs);
-
-  d.appendChild(mkBtn('⬅️', 'Вернуться в игру', '', function() {
-    S.mode = 'game'; clLg(); render();
-  }));
+  d.appendChild(mkBtn('⬅️','Вернуться в игру','',function(){ S.mode='game'; clLg(); render(); }));
 }
 
-// ══════════════════════════════════════════
-//  ВВОД ТЕКСТА
-// ══════════════════════════════════════════
-function showInp(ph, cb) {
-  $('ia').innerHTML = '';
-  var inp = document.createElement('textarea');
-  inp.placeholder = ph;
+function showInp(ph,cb){
+  $('ia').innerHTML='';
+  var inp=document.createElement('textarea'); inp.placeholder=ph;
   $('ia').appendChild(inp);
-
-  var b1 = document.createElement('button');
-  b1.innerHTML = '<span class="ic">✅</span>Отправить';
-  b1.onclick = function() { $('ia').innerHTML = ''; cb(inp.value.trim()); };
+  var b1=document.createElement('button');
+  b1.innerHTML='<span class="ic">✅</span>Отправить';
+  b1.onclick=function(){ $('ia').innerHTML=''; cb(inp.value.trim()); };
   $('ia').appendChild(b1);
-
-  var b2 = document.createElement('button');
-  b2.innerHTML = '<span class="ic">✖</span>Отмена';
-  b2.onclick = function() { $('ia').innerHTML = ''; render(); };
+  var b2=document.createElement('button');
+  b2.innerHTML='<span class="ic">✖</span>Отмена';
+  b2.onclick=function(){ $('ia').innerHTML=''; render(); };
   $('ia').appendChild(b2);
-
   inp.focus();
 }
 
@@ -1516,9 +1313,8 @@ function showInp(ph, cb) {
 // ══════════════════════════════════════════
 applyCfg();
 render();
-
-lg('🌲 Лона стоит на опушке тёмного леса.', 'lc');
-lg('Позади — дом, впереди — неизвестность.', 'hn');
-lg('💡 ⚙️ — настройки (тема, звук, громкости).', 'hn');
-if (!KEY) lg('🔑 Ключ ИИ не введён. 🤖 → 🔑.', 'bad');
+lg('🌲 Лона стоит на опушке тёмного леса.','lc');
+lg('Позади — дом, впереди — неизвестность.','hn');
+lg('💡 ⚙️ — настройки, 🎬 — сцены, 🗺 — новые локации.','hn');
+if(!KEY) lg('🔑 Ключ ИИ не введён. 🤖 → 🔑.','bad');
 </script></body></html>
